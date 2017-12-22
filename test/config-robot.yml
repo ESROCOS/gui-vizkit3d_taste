@@ -1,0 +1,27 @@
+# Window (title, geometry)
+window:
+    title: vizkit3d_c - robot visualization test
+    x: 100
+    y: 150
+
+# 3D widget
+widget:
+    manipulator: TRACKBALL_MANIPULATOR
+
+# Plugins
+plugins:
+    - type: RobotVisualization
+      name: Robot
+      modelFile: spacebot_arm/spacebot_arm.urdf
+      framesEnabled: true
+      jointsSize: 0.05
+      followModelWithCamera: false
+      rootLink: base_link
+      segmentNamesEnabled: false
+      frame:
+          base: world_osg
+          position: [0, 0, 0]
+          rotation: [1, 0, 0, 0]
+          # rotation quaternion in order [w, x, y, z]
+
+    - type: GridVisualization

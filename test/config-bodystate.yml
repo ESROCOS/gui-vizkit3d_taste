@@ -1,0 +1,35 @@
+# Window (title, geometry)
+window:
+    title: taste-vizkit3d - body state visualization test
+    x: 100
+    y: 150
+
+# 3D widget
+widget:
+    manipulator: TRACKBALL_MANIPULATOR
+
+# Plugins
+plugins:
+    - type: BodyStateVisualization
+      name: BS
+      modelPath: stim300.stl
+      size: 2.0
+      frame:
+          base: world_osg
+          position: [1, 1, 1]
+          rotation: [1, 0, 0, 0]
+          # rotation quaternion in order [w, x, y, z]
+
+    - type: RigidBodyStateVisualization
+      name: RBS
+      modelPath: stim300.stl
+      frame:
+          base: world_osg
+          position: [1, 1, 1]
+          rotation: [1, 0, 0, 0]
+          # rotation quaternion in order [w, x, y, z]
+
+    - type: ModelVisualization
+      modelPath: stim300.stl
+
+    - type: GridVisualization

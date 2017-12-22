@@ -1,0 +1,63 @@
+# Window (title, geometry)
+window:
+    title: vizkit3d_c - range visualization test
+    x: 100
+    y: 150
+
+# 3D widget
+widget:
+    manipulator: TRACKBALL_MANIPULATOR
+
+# Plugins
+plugins:
+    - type: PointcloudVisualization
+      name: Cloud
+      pointSize: 10.0
+      defaultFeatureColor: [0, 255, 0]
+      frame:
+          name: pcv
+          base: world_osg
+          position: [1, 0, 0]
+          rotation: [1, 0, 0, 0]
+          # rotation quaternion in order [w, x, y, z]
+
+    - type: DepthMapVisualization
+      name: Map
+      frame:
+          name: dmv
+          base: world_osg
+          position: [0, 1, 0]
+          rotation: [0.707, 0, 0, 0.707]
+          # rotation quaternion in order [w, x, y, z]
+
+    - type: LaserScanVisualization
+      name: Laser
+      ShowPolygon: true
+      Colorize: true
+      YForward: true
+      frame:
+          name: lsv
+          base: world_osg
+          position: [-1, 0, 0]
+          rotation: [0, 0, 0, 1]
+          # rotation quaternion in order [w, x, y, z]
+
+    - type: SonarBeamVisualization
+      name: Sonar
+      frame:
+          name: sbv
+          base: world_osg
+          position: [0, -1, 0]
+          rotation: [0.707, 0, 0, 0.707]
+          # rotation quaternion in order [w, x, y, z]
+    
+    - type: GridVisualization
+
+    - type: TextureBoxVisualization
+      px: 0.05
+      py: -0.2
+      pz: 0
+      sx: 0.578
+      sy: 0.171
+      filename: sargon.png
+

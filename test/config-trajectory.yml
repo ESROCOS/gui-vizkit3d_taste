@@ -1,0 +1,27 @@
+# Window (title, geometry)
+window:
+    title: vizkit3d_c - trajectory visualization test
+    x: 100
+    y: 150
+
+# 3D widget
+widget:
+    manipulator: TRACKBALL_MANIPULATOR
+
+# Plugins
+plugins:
+    - type: TrajectoryVisualization
+      name: Trajectory
+      MaxPoints: 2000
+      LineWidth: 5
+      Color: [0, 255, 0]
+
+    - type: WaypointVisualization
+      name: Waypoint
+      Color: [255, 0, 0]
+
+    - type: MotionCommandVisualization
+      name: Command
+      FrontAxis: X
+
+    - type: GridVisualization

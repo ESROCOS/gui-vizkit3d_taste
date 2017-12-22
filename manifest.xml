@@ -1,0 +1,16 @@
+<package>
+    <description brief="TASTE components for vizkit3d widgets">
+        Provides a C wrapper for several vizkit3d plugins and a set 
+        of TASTE reusable components to use these components in models.
+    </description>
+    <author>GMV Aerospace &amp; Defence S.A.U.</author>
+    <copyright>GMV 2018</copyright>
+    <license>GPLv2</license>
+    <depend package="yaml-cpp" />
+    <depend package="base/cmake" />
+    <depend package="gui/vizkit3d" />
+    <depend package="gui/robot_model" />
+    <depend package="types/base" />
+    <depend package="types/asn1_types_support" />
+    <depend package="control/sdformat" />
+</package>
