@@ -1,29 +1,12 @@
-# ======================================================================
-#  FILE:  $URL$
-# ======================================================================
-#  PROJECT:             :  SARGON
-#  VERSION              :  $Revision$
-#  LANGUAGE             :  CMake script
-#  AUTHOR               :  $LastChangedBy$ 
-#  COPYRIGHT            :  AVOS - GMV,S.A.
-#  COMPILER             :  cmake version 3.0.2
-#  CREATED              :  $CreationDate$
-#  CLASS                :  -
-#  LAST MODIFIED        :  $LastChangedDate$
-#  GENERATED FROM MODEL :  -
-#  ORIGINAL MODEL AUTHOR:  -
-# ----------------------------------------------------------------------
-#  CMake build script for the vizkit3d_c library.
-# ----------------------------------------------------------------------
-#  HISTORY
-#  $History$
-# ======================================================================
+# H2020 ESROCOS Project
+# Company: GMV Aerospace & Defence S.A.U.
+# Licence: GPLv2
 
 find_package(Qt4 4.4 REQUIRED QtCore QtGui)
 pkg_search_module(EIGEN3 REQUIRED eigen3)
 pkg_search_module(SDF REQURED sdformat)
-pkg_search_module(ESROCOS_TYPES_BASE REQUIRED esrocos_types_base)
-pkg_search_module(ASN1_TYPES_SUPPORT REQURED asn1_types_support)
+pkg_search_module(ESROCOS_TYPES_BASE_SUPPORT REQUIRED esrocos_types_base_support)
+pkg_search_module(ESROCOS_TYPES_SENSOR_SAMPLES_SUPPORT REQUIRED esrocos_types_sensor_samples_support)
 
 set(SOURCES
     BodyStatePluginController.cpp
@@ -51,9 +34,9 @@ set(SOURCES
     robotPluginWrapper.cpp
     sonarBeamPluginWrapper.cpp
     trajectoryPluginWrapper.cpp
-    vizkit3d_c.cpp
+    vizkit3d_taste.cpp
     waypointPluginWrapper.cpp
-    )
+)
     
 set(HEADERS
     BodyStatePluginController.hpp
@@ -81,39 +64,43 @@ set(HEADERS
     robotPluginWrapper.h
     sonarBeamPluginWrapper.h
     trajectoryPluginWrapper.h
-    vizkit3d_c.h
+    vizkit3d_taste.h
     waypointPluginWrapper.h
     wrapperTemplate.hpp
-    )
-    
+)
 
-#add_library(vizkit3d_taste SHARED
-#    SOURCES ${SOURCES}
-#    HEADERS ${HEADERS}
-#    DEPS_PKGCONFIG vizkit3d vizkit3d-viz base-types base-viz robot_model-viz asn1_types asn1_types_support yaml-cpp)
+# ASN.1 types are imported and compiled locally to the project, but not installed
+esrocos_asn1_types_package(local_types
+    OUTDIR asn1
+    IMPORT types/base types/sensor_samples
+)
 
 # Target library
-add_library(esrocos_vizkit3d_taste SHARED ${SOURCES})
-set_target_properties(esrocos_vizkit3d_taste PROPERTIES LINKER_LANGUAGE CXX)
-target_include_directories(esrocos_vizkit3d_taste PUBLIC 
+add_library(vizkit3d_taste SHARED ${SOURCES})
+set_target_properties(vizkit3d_taste PROPERTIES LINKER_LANGUAGE CXX)
+target_include_directories(vizkit3d_taste PUBLIC 
    ${EIGEN3_INCLUDE_DIRS}
    ${SDF_INCLUDE_DIRS}
    ${QT_INCLUDES}
-   ${ASN1_TYPES_SUPPORT_INCLUDE_DIRS}
-   ${ESROCOS_TYPES_BASE_INCLUDE_DIRS}
+   ${ESROCOS_TYPES_BASE_SUPPORT_INCLUDE_DIRS}
+   ${ESROCOS_TYPES_SENSOR_SAMPLES_SUPPORT_INCLUDE_DIRS}
    ${CMAKE_INSTALL_PREFIX}/include
-   )
-
-message(STATUS "ASN1_TYPES_SUPPORT_INCLUDE_DIRS: ${ASN1_TYPES_SUPPORT_INCLUDE_DIRS}")
+   PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
+)
+add_dependencies(vizkit3d_taste local_types_generate_c)
 
 # Install headers and libraries
 install(FILES ${HEADERS}
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/gui/${CMAKE_PROJECT_NAME}
-        )
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${CMAKE_PROJECT_NAME}
+)
         
-install(TARGETS esrocos_vizkit3d_taste
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-        )
+install(TARGETS vizkit3d_taste
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+)
 
+CONFIGURE_FILE("vizkit3d_taste.pc.in" "vizkit3d_taste.pc" @ONLY)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/vizkit3d_taste.pc
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig
+)
 
 

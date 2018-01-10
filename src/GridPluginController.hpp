@@ -1,23 +1,9 @@
-/* =====================================================================
- * FILE:  $URL$
- * =====================================================================
- * PROJECT:             :  SARGON
- * VERSION              :  $Revision$
- * LANGUAGE             :  C++
- * AUTHOR               :  $LastChangedBy$ 
- * COPYRIGHT            :  AVOS - GMV,S.A.
- * COMPILER             :  GCC-4.9.2, C++11
- * CREATED              :  $CreationDate$
- * CLASS                :  -
- * LAST MODIFIED        :  $LastChangedDate$
- * GENERATED FROM MODEL :  -
- * ORIGINAL MODEL AUTHOR:  -
- * ---------------------------------------------------------------------
- * A class that manages a vizkit3d GridVisualizationPlugin (header).
- * ---------------------------------------------------------------------
- * HISTORY
- * $History$
- * ================================================================== */
+/*
+ * H2020 ESROCOS Project
+ * Company: GMV Aerospace & Defence S.A.U.
+ * Licence: GPLv2
+ */
+
 #ifndef GRIDPLUGINCONTROLLER_HPP
 #define GRIDPLUGINCONTROLLER_HPP
 

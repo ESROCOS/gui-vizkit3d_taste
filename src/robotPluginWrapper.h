@@ -1,24 +1,9 @@
-/* =====================================================================
- * FILE:  $URL$
- * =====================================================================
- * PROJECT:             :  SARGON
- * VERSION              :  $Revision$
- * LANGUAGE             :  C++
- * AUTHOR               :  $LastChangedBy$ 
- * COPYRIGHT            :  AVOS - GMV,S.A.
- * COMPILER             :  GCC-4.9.2, C++11
- * CREATED              :  $CreationDate$
- * CLASS                :  -
- * LAST MODIFIED        :  $LastChangedDate$
- * GENERATED FROM MODEL :  -
- * ORIGINAL MODEL AUTHOR:  -
- * ---------------------------------------------------------------------
- * C interface wrapper for a RobotVisualization plugin 
- * (header).
- * ---------------------------------------------------------------------
- * HISTORY
- * $History$
- * ================================================================== */
+/*
+ * H2020 ESROCOS Project
+ * Company: GMV Aerospace & Defence S.A.U.
+ * Licence: GPLv2
+ */
+
 #ifndef ROBOTPLUGINWRAPPER_H
 #define ROBOTPLUGINWRAPPER_H
 
@@ -27,7 +12,7 @@ extern "C"
 {
 #endif
 
-#include "asn1_types_support/asn1Types.h"
+#include "base_support/baseTypes.h"
 
 // Update functions: returns VIZTASTE_XXX
 int RobotVisualization_updateJoints(const char* pluginName, const asn1SccJoints* joints);

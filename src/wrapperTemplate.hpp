@@ -1,27 +1,13 @@
-/* =====================================================================
- * FILE:  $URL$
- * =====================================================================
- * PROJECT:             :  SARGON
- * VERSION              :  $Revision$
- * LANGUAGE             :  C++
- * AUTHOR               :  $LastChangedBy$ 
- * COPYRIGHT            :  AVOS - GMV,S.A.
- * COMPILER             :  GCC-4.9.2, C++11
- * CREATED              :  $CreationDate$
- * CLASS                :  -
- * LAST MODIFIED        :  $LastChangedDate$
- * GENERATED FROM MODEL :  -
- * ORIGINAL MODEL AUTHOR:  -
- * ---------------------------------------------------------------------
- * Template update function for Vizkit3D plugins.
- * ---------------------------------------------------------------------
- * HISTORY
- * $History$
- * ================================================================== */
+/*
+ * H2020 ESROCOS Project
+ * Company: GMV Aerospace & Defence S.A.U.
+ * Licence: GPLv2
+ */
+
 #ifndef WRAPPERTEMPLATE_HPP
 #define WRAPPERTEMPLATE_HPP
 
-#include "vizkit3d_c.h"
+#include "vizkit3d_taste.h"
 #include "VizkitInstance.hpp"
 
 // Template for update function: returns VIZTASTE_XXX
