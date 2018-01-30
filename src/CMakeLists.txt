@@ -94,6 +94,7 @@ target_include_directories(vizkit3d_taste
     PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
 )
 add_dependencies(vizkit3d_taste local_types)
+add_coverage(vizkit3d_taste)
 
 
 # Install headers and libraries

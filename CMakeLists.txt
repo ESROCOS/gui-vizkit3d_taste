@@ -12,7 +12,11 @@ include($ENV{ESROCOS_CMAKE})
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# codecov module
+find_package(codecov REQUIRED)
+if (NOT ENABLE_COVERAGE)
+	message(STATUS "Configure with -DENABLE_COVERAGE=On to collect coverage metrics")
+endif()
+
 add_subdirectory(src)
 
-#install(DIRECTORY ${CMAKE_SOURCE_DIR}/asn1
-#        DESTINATION ${CMAKE_INSTALL_PREFIX}/types/${CMAKE_PROJECT_NAME}/asn1)
