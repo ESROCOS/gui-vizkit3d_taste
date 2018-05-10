@@ -12,12 +12,11 @@ extern "C"
 {
 #endif
 
-#include "base_support/baseTypes.h"
-#include "sensor_samples_support/sensorSamplesTypes.h"
+#include "typeDefinitions.h"
 
 // Update function: returns VIZTASTE_XXX
-int LaserScanVisualization_updateLaserScan(const char* pluginName, const asn1SccLaserScan* scan);
-int LaserScanVisualization_updatePose(const char* pluginName, const asn1SccRigidBodyState* state);
+int LaserScanVisualization_updateLaserScan(const char* pluginName, const asn1_LaserScan* scan);
+int LaserScanVisualization_updatePose(const char* pluginName, const asn1_RigidBodyState* state);
 
 #ifdef __cplusplus
 } // extern "C"

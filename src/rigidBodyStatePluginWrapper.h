@@ -12,10 +12,10 @@ extern "C"
 {
 #endif
 
-#include "base_support/baseTypes.h"
+#include "typeDefinitions.h"
 
 // Update function: returns VIZTASTE_XXX
-int RigidBodyStateVisualization_updateRigidBodyState(const char* pluginName, const asn1SccRigidBodyState* state);
+int RigidBodyStateVisualization_updateRigidBodyState(const char* pluginName, const asn1_RigidBodyState* state);
 
 #ifdef __cplusplus
 } // extern "C"

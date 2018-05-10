@@ -12,10 +12,10 @@ extern "C"
 {
 #endif
 
-#include "base_support/baseTypes.h"
+#include "typeDefinitions.h"
 
 // Update function: returns VIZTASTE_XXX
-int WaypointVisualization_updateWaypoint(const char* pluginName, const asn1SccWaypoint* waypoint);
+int WaypointVisualization_updateWaypoint(const char* pluginName, const asn1_Waypoint* waypoint);
 
 #ifdef __cplusplus
 } // extern "C"

@@ -68,7 +68,7 @@ set(HEADERS
 # ASN.1 types are imported and compiled locally to the project, but not installed
 esrocos_asn1_types_package(local_types
     OUTDIR asn1
-    IMPORT types/base types/sensor_samples
+    IMPORT types/base
 )
 
 # Find libraries in ESROCOS' install directory
@@ -86,14 +86,15 @@ esrocos_pkgconfig_dependency(vizkit3d_taste
     base-viz
     robot_model-viz
     base_support 
-    sensor_samples_support
 )
 set_target_properties(vizkit3d_taste PROPERTIES LINKER_LANGUAGE CXX)
 target_include_directories(vizkit3d_taste 
     PUBLIC ${QT_INCLUDES}
+    PUBLIC ${CMAKE_INSTALL_PREFIX}/include/orocos
     PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
 )
-add_dependencies(vizkit3d_taste local_types)
+target_compile_definitions(vizkit3d_taste PUBLIC OROCOS_TARGET=$ENV{OROCOS_TARGET})
+add_dependencies(vizkit3d_taste local_types_generate_c)
 add_coverage(vizkit3d_taste)
 
 

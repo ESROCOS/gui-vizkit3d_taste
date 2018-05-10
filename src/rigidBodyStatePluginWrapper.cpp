@@ -7,10 +7,10 @@
 #include "rigidBodyStatePluginWrapper.h"
 #include "RigidBodyStatePluginController.hpp"
 #include "wrapperTemplate.hpp"
-#include "base_support/asn1RigidBodyStateConvert.hpp"
+#include "typeConversions.hpp"
 
 
-int RigidBodyStateVisualization_updateRigidBodyState(const char* pluginName, const asn1SccRigidBodyState* state)
+int RigidBodyStateVisualization_updateRigidBodyState(const char* pluginName, const asn1_RigidBodyState* state)
 {
     return updatePluginData<RigidBodyStatePluginController>(pluginName, "RigidBodyStateVisualization", state, RigidBodyState_fromAsn1);
 }

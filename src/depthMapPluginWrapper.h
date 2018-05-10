@@ -12,12 +12,11 @@ extern "C"
 {
 #endif
 
-#include "base_support/baseTypes.h"
-#include "sensor_samples_support/sensorSamplesTypes.h"
+#include "typeDefinitions.h"
 
 // Update function: returns VIZTASTE_XXX
-int DepthMapVisualization_updateDepthMap(const char* pluginName, const asn1SccDepthMap* map);
-int DepthMapVisualization_updatePose(const char* pluginName, const asn1SccRigidBodyState* state);
+int DepthMapVisualization_updateDepthMap(const char* pluginName, const asn1_DepthMap* map);
+int DepthMapVisualization_updatePose(const char* pluginName, const asn1_RigidBodyState* state);
 
 #ifdef __cplusplus
 } // extern "C"

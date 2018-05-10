@@ -12,7 +12,5 @@
     <depend package="gui/robot_model" />
     <depend package="types/base" />
     <depend package="types/base_support" />
-    <depend package="types/sensor_samples" />
-    <depend package="types/sensor_samples_support" />
     <depend package="control/sdformat" />
 </package>

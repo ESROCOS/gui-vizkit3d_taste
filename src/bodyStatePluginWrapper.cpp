@@ -7,10 +7,10 @@
 #include "bodyStatePluginWrapper.h"
 #include "BodyStatePluginController.hpp"
 #include "wrapperTemplate.hpp"
-#include "base_support/asn1BodyStateConvert.hpp"
+#include "typeConversions.hpp"
 
 
-int BodyStateVisualization_updateBodyState(const char* pluginName, const asn1SccBodyState* state)
+int BodyStateVisualization_updateBodyState(const char* pluginName, const asn1_BodyState* state)
 {
     return updatePluginData<BodyStatePluginController>(pluginName, "BodyStateVisualization", state, BodyState_fromAsn1);
 }

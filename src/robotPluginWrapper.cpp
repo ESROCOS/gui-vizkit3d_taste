@@ -7,16 +7,15 @@
 #include "robotPluginWrapper.h"
 #include "RobotPluginController.hpp"
 #include "wrapperTemplate.hpp"
-#include "base_support/asn1JointsConvert.hpp"
-#include "base_support/asn1RigidBodyStateConvert.hpp"
+#include "typeConversions.hpp"
 
 
-int RobotVisualization_updateJoints(const char* pluginName, const asn1SccJoints* joints)
+int RobotVisualization_updateJoints(const char* pluginName, const asn1_Joints* joints)
 {
     return updatePluginData<RobotPluginController>(pluginName, "RobotVisualization", joints, Joints_fromAsn1);
 }
 
-int RobotVisualization_updateRigidBodyState(const char* pluginName, const asn1SccRigidBodyState* state)
+int RobotVisualization_updateRigidBodyState(const char* pluginName, const asn1_RigidBodyState* state)
 {
     return updatePluginData<RobotPluginController>(pluginName, "RobotVisualization", state, RigidBodyState_fromAsn1);
 }

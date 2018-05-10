@@ -12,10 +12,10 @@ extern "C"
 {
 #endif
 
-#include "base_support/baseTypes.h"
+#include "typeDefinitions.h"
 
 // Update function: returns VIZTASTE_XXX
-int TrajectoryVisualization_updateTrajectory(const char* pluginName, const asn1SccVector3d* vector);
+int TrajectoryVisualization_updateTrajectory(const char* pluginName, const asn1_Vector3d* vector);
 
 #ifdef __cplusplus
 } // extern "C"

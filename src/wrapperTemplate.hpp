@@ -15,7 +15,7 @@
 //     return updatePluginData<PLUGIN_CONTROLLER_CLASS>(pluginName, ASN1_DATA, TYPE_fromAsn1);
 // Where:
 //     - PLUGIN_CONTROLLER_CLASS: subclass of PluginController (e.g. RigidBodyStatePluginController)
-//     - ASN1_DATA: value of C type generated from ASN.1 to convert and pass to the plugin's updateData method (e.g. state, of type const asn1SccRigidBodyState*)
+//     - ASN1_DATA: value of C type generated from ASN.1 to convert and pass to the plugin's updateData method (e.g. state, of type const asn1_RigidBodyState*)
 //     - TYPE_fromAsn1: type conversion function from asn1_types_support (e.g. RigidBodyState_fromAsn1)
 //
 template<typename PLUGIN_T, typename ASN1_DATA_T, typename ROCK_DATA_T>

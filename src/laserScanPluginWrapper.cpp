@@ -7,16 +7,15 @@
 #include "laserScanPluginWrapper.h"
 #include "LaserScanPluginController.hpp"
 #include "wrapperTemplate.hpp"
-#include "sensor_samples_support/asn1LaserScanConvert.hpp"
-#include "base_support/asn1RigidBodyStateConvert.hpp"
+#include "typeConversions.hpp"
 
 
-int LaserScanVisualization_updateLaserScan(const char* pluginName, const asn1SccLaserScan* scan)
+int LaserScanVisualization_updateLaserScan(const char* pluginName, const asn1_LaserScan* scan)
 {
     return updatePluginData<LaserScanPluginController>(pluginName, "LaserScanVisualization", scan, LaserScan_fromAsn1);
 }
 
-int LaserScanVisualization_updatePose(const char* pluginName, const asn1SccRigidBodyState* state)
+int LaserScanVisualization_updatePose(const char* pluginName, const asn1_RigidBodyState* state)
 {
     return updatePluginData<LaserScanPluginController>(pluginName, "LaserScanVisualization", state, RigidBodyState_fromAsn1);
 }
