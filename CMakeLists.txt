@@ -21,4 +21,4 @@ if (NOT ENABLE_COVERAGE)
 endif()
 
 add_subdirectory(src)
-
+add_subdirectory(test)

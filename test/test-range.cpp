@@ -1,45 +1,129 @@
-/* =====================================================================
- * FILE:  $URL$
- * =====================================================================
- * PROJECT:             :  SARGON
- * VERSION              :  $Revision$
- * LANGUAGE             :  C++
- * AUTHOR               :  $LastChangedBy$ 
- * COPYRIGHT            :  AVOS - GMV,S.A.
- * COMPILER             :  GCC-4.9.2, C++11
- * CREATED              :  $CreationDate$
- * CLASS                :  -
- * LAST MODIFIED        :  $LastChangedDate$
- * GENERATED FROM MODEL :  -
- * ORIGINAL MODEL AUTHOR:  -
- *
- *..................................................................
- * main for test-rigidbodystate, testing:
- * - PointcloudVisualization
- * - DepthMapVisualization
- * - LaserScanVisualization
- * - GridVisualization
- *..................................................................
- * HISTORY
- * $History$
- *
- * ================================================================== */
+/*
+ * H2020 ESROCOS Project
+ * Company: GMV Aerospace & Defence S.A.U.
+ * Licence: GPLv2
+ */
 
-#include "vizkit3d_c/vizkit3d_c.h"
-#include "vizkit3d_c/pointcloudPluginWrapper.h"
-#include "vizkit3d_c/depthMapPluginWrapper.h"
-#include "vizkit3d_c/laserScanPluginWrapper.h"
-#include "vizkit3d_c/sonarBeamPluginWrapper.h"
-#include "asn1_types_support/asn1SccUtils.h"
+#include "vizkit3d_taste.h"
+#include "pointcloudPluginWrapper.h"
+#include "depthMapPluginWrapper.h"
+#include "laserScanPluginWrapper.h"
+#include "sonarBeamPluginWrapper.h"
+#include "typeConversions.hpp"
+#include "base/Eigen.hpp"
 #include <thread>
 #include <cmath>
 #include <iostream>
+#include <sstream>
 #include <unistd.h>
-#include <stddef.h>
+#include <cstddef>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
+
+
+// SonarBeam help functions
+
+#define MAX_LINE 1000
+
+int readSonarBeamEntry(const char* line, asn1_SonarBeam* pOutSample)
+{
+    int parsed = 0;
+    int count = 0;
+    int incr = 0;
+    
+    assert(NULL != pOutSample && "NULL output pointer in readSonarBeamEntry");
+    
+    if ('#' == line[0])
+    {
+        // Comment
+        return 1;
+    }
+    else
+    {
+        std::stringstream stm(line);
+        stm >> pOutSample->time.microseconds 
+            >> pOutSample->bearing.rad 
+            >> pOutSample->sampling_interval 
+            >> pOutSample->speed_of_sound 
+            >> pOutSample->beamwidth_horizontal
+            >> pOutSample->beamwidth_vertical;
+               
+        if (stm.fail())
+        {
+            // Error
+            return -1;
+        }
+
+        // Read beam
+        pOutSample->beam.nCount = 0;
+        while (!stm.fail() && pOutSample->beam.nCount <= 60)
+        {
+            stm >> pOutSample->beam.arr[pOutSample->beam.nCount];
+            pOutSample->beam.nCount++;
+        }
+    }
+    
+    return 0;
+}
+
+size_t readSonarBeamFile(const char* file, asn1_SonarBeam** pOutSamples, size_t maxSamples)
+{
+    size_t readCount = 0;
+    FILE* fd = NULL;
+    char line[MAX_LINE];
+    char* pLine = NULL;
+    int readOk = 1;
+    int parseResult = 0;
+    asn1_SonarBeam sample;
+    
+    assert(NULL != pOutSamples && "NULL output array in readSonarBeamFile");
+    
+    fd = fopen(file, "r");
+    
+    if (NULL != fd)
+    {
+        while (readOk && readCount < maxSamples)
+        {
+            pLine = fgets(&line[0], MAX_LINE, fd);
+            if (NULL != pLine)
+            {
+                parseResult = readSonarBeamEntry(line, &sample);
+                if (0 == parseResult)
+                {
+                    pOutSamples[readCount] = (asn1_SonarBeam*)malloc(sizeof(asn1_SonarBeam));
+                    *pOutSamples[readCount] = sample;
+                    readCount++;
+                }
+                else if (1 == parseResult)
+                {
+                    // comment line: ignore
+                }
+                else
+                {
+                    readOk = 0;
+                }
+            }
+            else
+            {
+                readOk = 0;
+            }
+        }
+        
+        fclose(fd);
+    }
+    
+    return readCount;
+}
+
+
+
+
+// Test
 
 const char* sonarDataFile = "sonar_beam.data";
 const size_t maxSonarData = 10000;
-asn1SccSonarBeam* sonarData[maxSonarData];
+asn1_SonarBeam* sonarData[maxSonarData];
 
 void update()
 {
@@ -49,12 +133,12 @@ void update()
     }
     
     // Point cloud
-    asn1SccPointcloud cloud;
+    asn1_Pointcloud cloud;
     cloud.points.nCount = 36;
     cloud.colors.nCount = 0;
 
     // Depth map
-    asn1SccDepthMap map;
+    asn1_DepthMap map;
     map.vertical_projection = asn1Sccplanar;
     map.horizontal_projection = asn1Sccplanar;
     map.vertical_size = 6;
@@ -68,28 +152,27 @@ void update()
     }
     
     // Laser scan
-    asn1SccLaserScan scan;
+    asn1_LaserScan scan;
     scan.start_angle = -M_PI_4;
     scan.angular_resolution = M_PI / 60.0;
     scan.speed = 1.0;
-    scan.minRange = 0.1;
-    scan.maxRange = 1000.0;
+    scan.minrange = 0.1;
+    scan.maxrange = 1000.0;
     
     // Sonar beam
     size_t count = readSonarBeamFile(sonarDataFile, sonarData, maxSonarData);
     if (count > 0)
     {
-        printf("Read sonar data: %d entries.\n", count);
-        printf("Enable KeepOldData manually.\n");
+        std::cout << "Read sonar data: " << count << " entries." << std::endl;
+        std::cout << "Enable KeepOldData manually." << std::endl;
     }
     else
     {
-        printf("Cannot read sonar data.\n");
+        std::cout << "Cannot read sonar data." << std::endl;
     }
 
     // Pose of depth map an laser scan (same pose, different frame)
-    asn1SccRigidBodyState pose;
-    asn1SccVector3d zAxis = Vector3d_create(0.0, 0.0, 1.0);
+    asn1_RigidBodyState pose;
 
     for (int i = 0; ; ++i)
     {
@@ -102,7 +185,8 @@ void update()
             {
                 for (int k = 0; k < 6; k++)
                 {
-                    cloud.points.arr[6*j+k] = Vector3d_create(i/10000.0, j/10.0, k/10.0);
+                    base::Vector3d point(i/10000.0, j/10.0, k/10.0);
+                    Vector3d_toAsn1(cloud.points.arr[6*j+k], point);
                 }
             }
             
@@ -142,7 +226,9 @@ void update()
         }   
 
         // Pose
-        pose.orient = Orientation_angleAxis(i*M_PI/180.0, &zAxis);
+        base::AngleAxisd rotation(i*M_PI/180.0, base::Vector3d::UnitZ());
+        base::Quaterniond orientation(rotation);
+        Quaterniond_toAsn1(pose.orientation, orientation);
 
         if (VIZTASTE_OK == result)
         {

@@ -1,58 +1,44 @@
-/* =====================================================================
- * FILE:  $URL$
- * =====================================================================
- * PROJECT:             :  SARGON
- * VERSION              :  $Revision$
- * LANGUAGE             :  C++
- * AUTHOR               :  $LastChangedBy$ 
- * COPYRIGHT            :  AVOS - GMV,S.A.
- * COMPILER             :  GCC-4.9.2, C++11
- * CREATED              :  $CreationDate$
- * CLASS                :  -
- * LAST MODIFIED        :  $LastChangedDate$
- * GENERATED FROM MODEL :  -
- * ORIGINAL MODEL AUTHOR:  -
- *
- *..................................................................
- * main for test-bodystate, testing:
- * - BodyStateVisualization
- * - ModelVisualization
- *..................................................................
- * HISTORY
- * $History$
- *
- * ================================================================== */
+/*
+ * H2020 ESROCOS Project
+ * Company: GMV Aerospace & Defence S.A.U.
+ * Licence: GPLv2
+ */
 
-#include "vizkit3d_c/vizkit3d_c.h"
-#include "vizkit3d_c/robotPluginWrapper.h"
-#include "asn1_types_support/asn1SccUtils.h"
+#include "vizkit3d_taste.h"
+#include "robotPluginWrapper.h"
+#include "typeConversions.hpp"
 #include <thread>
 #include <cmath>
+#include <cstring>
 #include <iostream>
 #include <unistd.h>
 
 void update()
 {
-    asn1SccVector3d xAxis = Vector3d_create(1.0, 0.0, 0.0);
-    asn1SccRigidBodyState rbs;
+    asn1_RigidBodyState rbs;
     int dir3 = 1;
     
     // Joints: positions of joint_3, joint_4
-    asn1SccJointState jz;
+    asn1_JointState jz;
     jz.acceleration = 0;
     jz.effort = 0;
     jz.position = 0;
     jz.raw = 0;
     jz.speed = 0;
     
-    asn1SccJoints joints;
+    asn1_Joints joints;
     joints.names.nCount = 2;
-    StringN_fromC(&joints.names.arr[0], "joint_3", jointsNameLength);
-    StringN_fromC(&joints.names.arr[1], "joint_4", jointsNameLength);
+
+    strncpy((char*)&joints.names.arr[0].arr, "joint_3", numT_String);
+    joints.names.arr[0].nCount = strnlen("joint_3", numT_String);
+    strncpy((char*)&joints.names.arr[1].arr, "joint_4", numT_String);
+    joints.names.arr[1].nCount = strnlen("joint_r", numT_String);
     
     joints.elements.nCount = 2;
     joints.elements.arr[0] = jz;
     joints.elements.arr[1] = jz;
+
+    int j3 = 0;
 
     for (int i = 0; ; ++i)
     {
@@ -61,7 +47,11 @@ void update()
         if (VIZTASTE_OK == result)
         {
             // Update RigidBodyState
-            rbs.orient = Orientation_angleAxis( i * M_PI * 0.02 / 180.0, &xAxis);
+            
+            base::AngleAxisd aa( i*M_PI*0.01/180.0, base::Vector3d::UnitX());
+            base::Quaterniond orientation(aa);
+            Quaterniond_toAsn1(rbs.orientation, orientation);
+
             result = RobotVisualization_updateRigidBodyState("Robot", &rbs);
         }
 
@@ -70,12 +60,13 @@ void update()
             // Update Joints
             // joint_3
             double j3pos = joints.elements.arr[0].position;
-            j3pos += dir3 * i * M_PI / 100000.0;
-            if (abs(j3pos) > 2.3)
+            j3pos += dir3 * abs(j3) * M_PI / 100000.0;
+            if (abs(j3pos) > 2.0)
             {
                 dir3 *= -1;
             }
             joints.elements.arr[0].position = j3pos;
+            j3 += dir3;
             
             // joint_4
             double j4pos = joints.elements.arr[1].position;
@@ -117,6 +108,7 @@ int main(int argc, char** argv)
         return 1;
     }
 
+    usleep(1000000);
     std::thread t1(update);
     t1.join();
 

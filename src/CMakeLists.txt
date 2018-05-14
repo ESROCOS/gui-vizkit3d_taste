@@ -67,12 +67,15 @@ set(HEADERS
 
 # ASN.1 types are imported and compiled locally to the project, but not installed
 esrocos_asn1_types_package(local_types
-    OUTDIR asn1
+    OUTDIR ${CMAKE_CURRENT_BINARY_DIR}/asn1
     IMPORT types/base
 )
 
 # Find libraries in ESROCOS' install directory
-link_directories(${CMAKE_INSTALL_PREFIX}/lib)
+link_directories(
+    ${CMAKE_INSTALL_PREFIX}/lib
+    ${CMAKE_INSTALL_PREFIX}/lib/orocos/types
+)
 
 # Target library
 add_library(vizkit3d_taste SHARED ${SOURCES})
@@ -85,6 +88,7 @@ esrocos_pkgconfig_dependency(vizkit3d_taste
     base-types
     base-viz
     robot_model-viz
+    base-typekit-gnulinux
     base_support 
 )
 set_target_properties(vizkit3d_taste PROPERTIES LINKER_LANGUAGE CXX)

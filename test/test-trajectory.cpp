@@ -1,35 +1,14 @@
-/* =====================================================================
- * FILE:  $URL$
- * =====================================================================
- * PROJECT:             :  SARGON
- * VERSION              :  $Revision$
- * LANGUAGE             :  C++
- * AUTHOR               :  $LastChangedBy$ 
- * COPYRIGHT            :  AVOS - GMV,S.A.
- * COMPILER             :  GCC-4.9.2, C++11
- * CREATED              :  $CreationDate$
- * CLASS                :  -
- * LAST MODIFIED        :  $LastChangedDate$
- * GENERATED FROM MODEL :  -
- * ORIGINAL MODEL AUTHOR:  -
- *
- *..................................................................
- * main for test-rigidbodystate, testing:
- * - TrajectoryVisualization
- * - WaypointVisualization
- * - MotionCommandVisualization
- * - GridVisualization
- *..................................................................
- * HISTORY
- * $History$
- *
- * ================================================================== */
+/*
+ * H2020 ESROCOS Project
+ * Company: GMV Aerospace & Defence S.A.U.
+ * Licence: GPLv2
+ */
 
-#include "vizkit3d_c/vizkit3d_c.h"
-#include "vizkit3d_c/motionCommandPluginWrapper.h"
-#include "vizkit3d_c/trajectoryPluginWrapper.h"
-#include "vizkit3d_c/waypointPluginWrapper.h"
-#include "asn1_types_support/asn1SccUtils.h"
+#include "vizkit3d_taste.h"
+#include "motionCommandPluginWrapper.h"
+#include "trajectoryPluginWrapper.h"
+#include "waypointPluginWrapper.h"
+#include "typeConversions.hpp"
 #include <thread>
 #include <cmath>
 #include <iostream>
@@ -39,32 +18,37 @@
 void update()
 {
     // Trajectory vector
-    asn1SccVector3d tv = Vector3d_create(0.0, 0.0, 0.0);
+    asn1_Vector3d tv;
+    base::Vector3d tvAux(0.0, 0.0, 0.0);
+    Vector3d_toAsn1(tv, tvAux);
 
     // Waypoint
-    asn1SccWaypoint wp;
-    wp.position = Vector3d_create(0.0, 0.0, 0.0);
+    asn1_Waypoint wp;
+    base::Vector3d wpAux(0.0, 0.0, 0.0);
+    Vector3d_toAsn1(wp.position, wpAux);
     wp.heading = M_PI / 3.0;
     wp.tol_position = 0.0;
     wp.tol_heading = 0.0;
 
     // Motion command and pose
-    asn1SccMotion2D cmd;
+    asn1_Motion2D cmd;
     cmd.translation = 0.1;
     cmd.rotation = 0.0;
     
-    asn1SccVector3d zAxis = Vector3d_create(0.0, 0.0, 1.0);
-    asn1SccPose pose;
-    pose.pos = Vector3d_create(0.0, 0.0, 0.0);
-    pose.orient =  Orientation_angleAxis(M_PI / 3.0, &zAxis);
+    asn1_Pose pose;
+    base::Vector3d posAux(0.0, 0.0, 0.0);
+    Vector3d_toAsn1(pose.position, posAux);
+    base::AngleAxisd aa(M_PI/3.0, base::Vector3d::UnitZ());
+    base::Quaterniond oriAux(aa);
+    Quaterniond_toAsn1(pose.orientation, oriAux);
 
     for (int i = 0; ; ++i)
     {
         int result = VIZTASTE_OK;
         
         // Trajectory
-        tv.arr[0] = i/100.0;
-        tv.arr[1] = i/50.0;
+        tv.data.arr[0] = i/100.0;
+        tv.data.arr[1] = i/50.0;
 
         if (VIZTASTE_OK == result)
         {
@@ -74,8 +58,8 @@ void update()
         // Waypoint
         if (0 == i % 100)
         {
-            wp.position.arr[0] = (i+100)/100.0;
-            wp.position.arr[1] = (i+100)/50.0;
+            wp.position.data.arr[0] = (i+100)/100.0;
+            wp.position.data.arr[1] = (i+100)/50.0;
 
             if (VIZTASTE_OK == result)
             {
@@ -86,8 +70,8 @@ void update()
         // Motion command
         if (0 == i % 100)
         {
-            pose.pos.arr[0] = i/100.0;
-            pose.pos.arr[1] = i/50.0;
+            pose.position.data.arr[0] = i/100.0;
+            pose.position.data.arr[1] = i/50.0;
             
             if (VIZTASTE_OK == result)
             {

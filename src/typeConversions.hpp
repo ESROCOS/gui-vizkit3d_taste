@@ -15,10 +15,11 @@
 #include "base_support/Base-samples-RigidBodyStateConvert.hpp"
 #include "base_support/Base-WaypointConvert.hpp"
 #include "base_support/OpaqueConversion.hpp"
+#include "base_support/Wrappers-Vector3dConvert.hpp"
+#include "base_support/Wrappers-QuaterniondConvert.hpp"
 
 // TO-DO: check missing includes in generated types
 #include <base/commands/Joints.hpp>
-#include <base/samples/Joints.hpp>
 #include "base_support/Base-commands-JointsConvert.hpp"
 #include <base/samples/LaserScan.hpp>
 #include "base_support/Base-samples-LaserScanConvert.hpp"
@@ -26,8 +27,6 @@
 #include "base_support/Base-samples-PointcloudConvert.hpp"
 #include <base/samples/SonarBeam.hpp>
 #include "base_support/Base-samples-SonarBeamConvert.hpp"
-#include <base/Eigen.hpp>
-#include "base_support/Wrappers-Vector3dConvert.hpp"
 
 
 inline void BodyState_fromAsn1(base::samples::BodyState& result, const asn1_BodyState& asnVal)
@@ -38,6 +37,13 @@ inline void BodyState_fromAsn1(base::samples::BodyState& result, const asn1_Body
 inline void Motion2D_fromAsn1(base::commands::Motion2D& result, const asn1_Motion2D& asnVal)
 {
     asn1SccBase_commands_Motion2D_fromAsn1(result, asnVal);
+}
+
+inline void Quaterniond_toAsn1(asn1_Quaterniond& result, const base::Quaterniond& baseObj)
+{
+    wrappers::Quaterniond intermediate;
+    Base_Quaterniond_toIntermediate(intermediate, baseObj);
+    asn1SccWrappers_Quaterniond_toAsn1(result, intermediate);
 }
 
 inline void Pose_fromAsn1(base::Pose& result, const asn1_Pose& asnVal)
@@ -52,9 +58,16 @@ inline void RigidBodyState_fromAsn1(base::samples::RigidBodyState& result, const
 
 inline void Vector3d_fromAsn1(base::Vector3d& result, const asn1_Vector3d& asnVal)
 {
-    wrappers::Vector3d vector_intermediate;
-    asn1SccWrappers_Vector3d_fromAsn1(vector_intermediate, asnVal);
-    Base_Vector3d_fromIntermediate(result, vector_intermediate);
+    wrappers::Vector3d intermediate;
+    asn1SccWrappers_Vector3d_fromAsn1(intermediate, asnVal);
+    Base_Vector3d_fromIntermediate(result, intermediate);
+}
+
+inline void Vector3d_toAsn1(asn1_Vector3d& result, const base::Vector3d& baseObj)
+{
+    wrappers::Vector3d intermediate;
+    Base_Vector3d_toIntermediate(intermediate, baseObj);
+    asn1SccWrappers_Vector3d_toAsn1(result, intermediate);
 }
 
 inline void Waypoint_fromAsn1(base::Waypoint& result, const asn1_Waypoint& asnVal)
@@ -75,7 +88,7 @@ inline void DepthMap_fromAsn1(base::samples::DepthMap& result, const asn1_DepthM
 
 inline void Joints_fromAsn1(base::commands::Joints& result, const asn1_Joints & asnVal)
 {
-//    asn1SccBase_commands_Joints_fromAsn1<asn1_Joints>(result, asnVal);
+    asn1SccBase_commands_Joints_fromAsn1<asn1_Joints>(result, asnVal);
 }
 
 inline void LaserScan_fromAsn1(base::samples::LaserScan& result, const asn1_LaserScan & asnVal)
@@ -85,7 +98,7 @@ inline void LaserScan_fromAsn1(base::samples::LaserScan& result, const asn1_Lase
 
 inline void Pointcloud_fromAsn1(base::samples::Pointcloud& result, const asn1_Pointcloud & asnVal)
 {
-//    asn1SccBase_samples_Pointcloud_fromAsn1<asn1_Pointcloud>(result, asnVal);
+    asn1SccBase_samples_Pointcloud_fromAsn1<asn1_Pointcloud>(result, asnVal);
 }
 
 inline void SonarBeam_fromAsn1(base::samples::SonarBeam& result, const asn1_SonarBeam & asnVal)

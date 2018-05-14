@@ -1,32 +1,14 @@
-/* =====================================================================
- * FILE:  $URL$
- * =====================================================================
- * PROJECT:             :  SARGON
- * VERSION              :  $Revision$
- * LANGUAGE             :  C++
- * AUTHOR               :  $LastChangedBy$ 
- * COPYRIGHT            :  AVOS - GMV,S.A.
- * COMPILER             :  GCC-4.9.2, C++11
- * CREATED              :  $CreationDate$
- * CLASS                :  -
- * LAST MODIFIED        :  $LastChangedDate$
- * GENERATED FROM MODEL :  -
- * ORIGINAL MODEL AUTHOR:  -
- *
- *..................................................................
- * main for test-bodystate, testing:
- * - BodyStateVisualization
- * - ModelVisualization
- *..................................................................
- * HISTORY
- * $History$
- *
- * ================================================================== */
+/*
+ * H2020 ESROCOS Project
+ * Company: GMV Aerospace & Defence S.A.U.
+ * Licence: GPLv2
+ */
 
-#include "vizkit3d_c/vizkit3d_c.h"
-#include "vizkit3d_c/bodyStatePluginWrapper.h"
-#include "vizkit3d_c/rigidBodyStatePluginWrapper.h"
-#include "asn1_types_support/asn1SccUtils.h"
+#include "vizkit3d_taste.h"
+#include "bodyStatePluginWrapper.h"
+#include "rigidBodyStatePluginWrapper.h"
+#include "typeConversions.hpp"
+#include "base/Eigen.hpp"
 #include <thread>
 #include <cmath>
 #include <iostream>
@@ -34,30 +16,33 @@
 
 void update()
 {
-    asn1SccVector3d xAxis = Vector3d_create(1.0, 0.0, 0.0);
-
     // Body state
-    asn1SccBodyState bs;
-    bs.pose.translation = Vector3d_create(0.0, 0.0, 0.5);
-
+    asn1_BodyState bs;
+    base::Vector3d translation(0.0, 0.0, 0.5);
+    Vector3d_toAsn1(bs.pose.translation, translation);
+    
     // Rigid body state
-    asn1SccRigidBodyState rbs;
+    asn1_RigidBodyState rbs;
 
     for (int i = 0; ; ++i)
     {
+        // Rotation angle
+        base::AngleAxisd aa(i*M_PI/180.0, base::Vector3d::UnitX());
+        base::Quaterniond orientation(aa);
+
         int result = VIZTASTE_OK;
         
         // Body state
         if (VIZTASTE_OK == result)
         {    
-            bs.pose.orientation = Orientation_angleAxis(i*M_PI/180.0, &xAxis);
+            Quaterniond_toAsn1(bs.pose.orientation, orientation);
             result = BodyStateVisualization_updateBodyState("BS", &bs);
         }
         
         // Rigid body state
         if (VIZTASTE_OK == result)
         {    
-            rbs.orient = Orientation_angleAxis(i*M_PI/180.0, &xAxis);
+            Quaterniond_toAsn1(rbs.orientation, orientation);
             result = RigidBodyStateVisualization_updateRigidBodyState("RBS", &rbs);
         }
         
