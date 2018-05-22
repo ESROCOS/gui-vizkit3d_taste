@@ -28,10 +28,6 @@
 
 int readSonarBeamEntry(const char* line, asn1_SonarBeam* pOutSample)
 {
-    int parsed = 0;
-    int count = 0;
-    int incr = 0;
-    
     assert(NULL != pOutSample && "NULL output pointer in readSonarBeamEntry");
     
     if ('#' == line[0])

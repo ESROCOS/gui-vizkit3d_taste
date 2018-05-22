@@ -1,0 +1,491 @@
+---------------------------------------------------
+-- AADL2.1
+-- TASTE type interfaceview
+-- 
+-- generated code: do not edit
+---------------------------------------------------
+
+PACKAGE interfaceview::IV::test_Range
+PUBLIC
+
+WITH interfaceview::IV::vizkit3d_Pointcloud;
+WITH interfaceview::IV::vizkit3d_DepthMap;
+WITH interfaceview::IV::vizkit3d_LaserScan;
+WITH interfaceview::IV::vizkit3d_SonarBeam;
+WITH Taste;
+WITH DataView;
+WITH TASTE_IV_Properties;
+SUBPROGRAM PI_trigger
+PROPERTIES
+  Taste::Associated_Queue_Size => 1;
+END PI_trigger;
+
+SUBPROGRAM IMPLEMENTATION PI_trigger.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 100 ms;
+END PI_trigger.others;
+
+SUBPROGRAM RI_updatePointCloud
+FEATURES
+  cloud : IN PARAMETER DataView::Base_samples_Pointcloud {
+    Taste::encoding => NATIVE;
+  };
+END RI_updatePointCloud;
+
+SUBPROGRAM IMPLEMENTATION RI_updatePointCloud.others
+END RI_updatePointCloud.others;
+
+SUBPROGRAM RI_updateDepthMap
+FEATURES
+  map : IN PARAMETER DataView::Base_samples_DepthMap {
+    Taste::encoding => NATIVE;
+  };
+END RI_updateDepthMap;
+
+SUBPROGRAM IMPLEMENTATION RI_updateDepthMap.others
+END RI_updateDepthMap.others;
+
+SUBPROGRAM RI_updatePose_DM
+FEATURES
+  pose : IN PARAMETER DataView::Base_samples_RigidBodyState {
+    Taste::encoding => NATIVE;
+  };
+END RI_updatePose_DM;
+
+SUBPROGRAM IMPLEMENTATION RI_updatePose_DM.others
+END RI_updatePose_DM.others;
+
+SUBPROGRAM RI_updateLaserScan
+FEATURES
+  scan : IN PARAMETER DataView::Base_samples_LaserScan {
+    Taste::encoding => NATIVE;
+  };
+END RI_updateLaserScan;
+
+SUBPROGRAM IMPLEMENTATION RI_updateLaserScan.others
+END RI_updateLaserScan.others;
+
+SUBPROGRAM RI_updatePose_LS
+FEATURES
+  pose : IN PARAMETER DataView::Base_samples_RigidBodyState {
+    Taste::encoding => NATIVE;
+  };
+END RI_updatePose_LS;
+
+SUBPROGRAM IMPLEMENTATION RI_updatePose_LS.others
+END RI_updatePose_LS.others;
+
+SUBPROGRAM RI_updateSonarBeam
+FEATURES
+  beam : IN PARAMETER DataView::Base_samples_SonarBeam {
+    Taste::encoding => NATIVE;
+  };
+END RI_updateSonarBeam;
+
+SUBPROGRAM IMPLEMENTATION RI_updateSonarBeam.others
+END RI_updateSonarBeam.others;
+
+SUBPROGRAM RI_updateOrientation
+FEATURES
+  rbs : IN PARAMETER DataView::Base_samples_RigidBodyState {
+    Taste::encoding => NATIVE;
+  };
+END RI_updateOrientation;
+
+SUBPROGRAM IMPLEMENTATION RI_updateOrientation.others
+END RI_updateOrientation.others;
+
+SYSTEM test_Range
+FEATURES
+  PI_trigger : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::test_Range::PI_trigger.others {
+    Taste::coordinates => "265 239";
+    Taste::RCMoperationKind => cyclic;
+    Taste::RCMperiod => 100 ms;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "trigger";
+  };
+  RI_updatePointCloud : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_Pointcloud::PI_updatePointCloud.others {
+    Taste::coordinates => "655 226";
+    Taste::RCMoperationKind => any;
+    Taste::InterfaceName => "updatePointCloud";
+    Taste::labelInheritance => "true";
+  };
+  RI_updateDepthMap : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_DepthMap::PI_updateDepthMap.others {
+    Taste::coordinates => "655 252";
+    Taste::RCMoperationKind => any;
+    Taste::InterfaceName => "updateDepthMap";
+    Taste::labelInheritance => "true";
+  };
+  RI_updatePose_DM : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_DepthMap::PI_updatePose.others {
+    Taste::coordinates => "655 276";
+    Taste::RCMoperationKind => any;
+    Taste::InterfaceName => "updatePose_DM";
+    Taste::labelInheritance => "false";
+  };
+  RI_updateLaserScan : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_LaserScan::PI_updateLaserScan.others {
+    Taste::coordinates => "655 304";
+    Taste::RCMoperationKind => any;
+    Taste::InterfaceName => "updateLaserScan";
+    Taste::labelInheritance => "true";
+  };
+  RI_updatePose_LS : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_LaserScan::PI_updatePose.others {
+    Taste::coordinates => "655 332";
+    Taste::RCMoperationKind => any;
+    Taste::InterfaceName => "updatePose_LS";
+    Taste::labelInheritance => "false";
+  };
+  RI_updateSonarBeam : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_SonarBeam::PI_updateSonarBeam.others {
+    Taste::coordinates => "655 355";
+    Taste::RCMoperationKind => any;
+    Taste::InterfaceName => "updateSonarBeam";
+    Taste::labelInheritance => "true";
+  };
+  RI_updateOrientation : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_SonarBeam::PI_updateOrientation.others {
+    Taste::coordinates => "655 380";
+    Taste::RCMoperationKind => any;
+    Taste::InterfaceName => "updateOrientation";
+    Taste::labelInheritance => "true";
+  };
+PROPERTIES
+  Source_Language => (CPP);
+  Taste::Active_Interfaces => enabled;
+  Source_Text => ("test_range.zip");
+END test_Range;
+
+SYSTEM IMPLEMENTATION test_Range.others
+SUBCOMPONENTS
+  compilerOption : DATA DataView::Taste_directive {
+    Taste::FS_Default_Value => "compiler-option:""-DOROCOS_TARGET=gnulinux""";
+  };
+END test_Range.others;
+
+END interfaceview::IV::test_Range;
+
+PACKAGE interfaceview::IV::vizkit3d_Pointcloud
+PUBLIC
+
+WITH Taste;
+WITH DataView;
+WITH TASTE_IV_Properties;
+SUBPROGRAM PI_updatePointCloud
+FEATURES
+  cloud : IN PARAMETER DataView::Base_samples_Pointcloud {
+    Taste::encoding => NATIVE;
+  };
+PROPERTIES
+  Taste::Associated_Queue_Size => 1;
+END PI_updatePointCloud;
+
+SUBPROGRAM IMPLEMENTATION PI_updatePointCloud.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 0 ms;
+END PI_updatePointCloud.others;
+
+SYSTEM vizkit3d_Pointcloud
+FEATURES
+  PI_updatePointCloud : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_Pointcloud::PI_updatePointCloud.others {
+    Taste::coordinates => "1001 336";
+    Taste::RCMoperationKind => sporadic;
+    Taste::RCMperiod => 0 ms;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "updatePointCloud";
+  };
+PROPERTIES
+  Source_Language => (C);
+  Taste::Active_Interfaces => enabled;
+  Source_Text => ("vizkit3d_pointcloud.zip");
+END vizkit3d_Pointcloud;
+
+SYSTEM IMPLEMENTATION vizkit3d_Pointcloud.others
+SUBCOMPONENTS
+  configFile : DATA DataView::Vizkit3D_FilePath {
+    Taste::FS_Default_Value => """config-range.yml""";
+  };
+  id : DATA DataView::Vizkit3D_PluginLabel {
+    Taste::FS_Default_Value => """Cloud""";
+  };
+  compilerOption : DATA DataView::Taste_directive {
+    Taste::FS_Default_Value => "compiler-option:""-DORCOS_TARGET=gnulinux""";
+  };
+END vizkit3d_Pointcloud.others;
+
+END interfaceview::IV::vizkit3d_Pointcloud;
+
+PACKAGE interfaceview::IV::vizkit3d_DepthMap
+PUBLIC
+
+WITH Taste;
+WITH DataView;
+WITH TASTE_IV_Properties;
+SUBPROGRAM PI_updateDepthMap
+FEATURES
+  map : IN PARAMETER DataView::Base_samples_DepthMap {
+    Taste::encoding => NATIVE;
+  };
+PROPERTIES
+  Taste::Associated_Queue_Size => 1;
+END PI_updateDepthMap;
+
+SUBPROGRAM IMPLEMENTATION PI_updateDepthMap.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 0 ms;
+END PI_updateDepthMap.others;
+
+SUBPROGRAM PI_updatePose
+FEATURES
+  pose : IN PARAMETER DataView::Base_samples_RigidBodyState {
+    Taste::encoding => NATIVE;
+  };
+PROPERTIES
+  Taste::Associated_Queue_Size => 1;
+END PI_updatePose;
+
+SUBPROGRAM IMPLEMENTATION PI_updatePose.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 0 ms;
+END PI_updatePose.others;
+
+SYSTEM vizkit3d_DepthMap
+FEATURES
+  PI_updateDepthMap : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_DepthMap::PI_updateDepthMap.others {
+    Taste::coordinates => "1003 498";
+    Taste::RCMoperationKind => sporadic;
+    Taste::RCMperiod => 0 ms;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "updateDepthMap";
+  };
+  PI_updatePose : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_DepthMap::PI_updatePose.others {
+    Taste::coordinates => "1003 529";
+    Taste::RCMoperationKind => sporadic;
+    Taste::RCMperiod => 0 ms;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "updatePose";
+  };
+PROPERTIES
+  Source_Language => (C);
+  Taste::Active_Interfaces => enabled;
+  Source_Text => ("vizkit3d_depthmap.zip");
+END vizkit3d_DepthMap;
+
+SYSTEM IMPLEMENTATION vizkit3d_DepthMap.others
+SUBCOMPONENTS
+  configFile : DATA DataView::Vizkit3D_FilePath {
+    Taste::FS_Default_Value => """config-range.yml""";
+  };
+  id : DATA DataView::Vizkit3D_PluginLabel {
+    Taste::FS_Default_Value => """Map""";
+  };
+  compilerOption : DATA DataView::Taste_directive {
+    Taste::FS_Default_Value => "compiler-option:""-DOROCOS_TARGET=gnulinux""";
+  };
+END vizkit3d_DepthMap.others;
+
+END interfaceview::IV::vizkit3d_DepthMap;
+
+PACKAGE interfaceview::IV::vizkit3d_LaserScan
+PUBLIC
+
+WITH Taste;
+WITH DataView;
+WITH TASTE_IV_Properties;
+SUBPROGRAM PI_updateLaserScan
+FEATURES
+  scan : IN PARAMETER DataView::Base_samples_LaserScan {
+    Taste::encoding => NATIVE;
+  };
+PROPERTIES
+  Taste::Associated_Queue_Size => 1;
+END PI_updateLaserScan;
+
+SUBPROGRAM IMPLEMENTATION PI_updateLaserScan.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 0 ms;
+END PI_updateLaserScan.others;
+
+SUBPROGRAM PI_updatePose
+FEATURES
+  pose : IN PARAMETER DataView::Base_samples_RigidBodyState {
+    Taste::encoding => NATIVE;
+  };
+PROPERTIES
+  Taste::Associated_Queue_Size => 1;
+END PI_updatePose;
+
+SUBPROGRAM IMPLEMENTATION PI_updatePose.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 0 ms;
+END PI_updatePose.others;
+
+SYSTEM vizkit3d_LaserScan
+FEATURES
+  PI_updateLaserScan : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_LaserScan::PI_updateLaserScan.others {
+    Taste::coordinates => "1006 682";
+    Taste::RCMoperationKind => sporadic;
+    Taste::RCMperiod => 0 ms;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "updateLaserScan";
+  };
+  PI_updatePose : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_LaserScan::PI_updatePose.others {
+    Taste::coordinates => "1006 713";
+    Taste::RCMoperationKind => sporadic;
+    Taste::RCMperiod => 0 ms;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "updatePose";
+  };
+PROPERTIES
+  Source_Language => (C);
+  Taste::Active_Interfaces => enabled;
+  Source_Text => ("vizkit3d_laserscan.zip");
+END vizkit3d_LaserScan;
+
+SYSTEM IMPLEMENTATION vizkit3d_LaserScan.others
+SUBCOMPONENTS
+  configFile : DATA DataView::Vizkit3D_FilePath {
+    Taste::FS_Default_Value => """config-range.yml""";
+  };
+  id : DATA DataView::Vizkit3D_PluginLabel {
+    Taste::FS_Default_Value => """Laser""";
+  };
+  compilerOption : DATA DataView::Taste_directive {
+    Taste::FS_Default_Value => "compiler-option:""-DOROCOS_TARGET=gnulinux""";
+  };
+END vizkit3d_LaserScan.others;
+
+END interfaceview::IV::vizkit3d_LaserScan;
+
+PACKAGE interfaceview::IV::vizkit3d_SonarBeam
+PUBLIC
+
+WITH Taste;
+WITH DataView;
+WITH TASTE_IV_Properties;
+SUBPROGRAM PI_updateSonarBeam
+FEATURES
+  beam : IN PARAMETER DataView::Base_samples_SonarBeam {
+    Taste::encoding => NATIVE;
+  };
+PROPERTIES
+  Taste::Associated_Queue_Size => 1;
+END PI_updateSonarBeam;
+
+SUBPROGRAM IMPLEMENTATION PI_updateSonarBeam.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 0 ms;
+END PI_updateSonarBeam.others;
+
+SUBPROGRAM PI_updateOrientation
+FEATURES
+  rbs : IN PARAMETER DataView::Base_samples_RigidBodyState {
+    Taste::encoding => NATIVE;
+  };
+PROPERTIES
+  Taste::Associated_Queue_Size => 1;
+END PI_updateOrientation;
+
+SUBPROGRAM IMPLEMENTATION PI_updateOrientation.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 0 ms;
+END PI_updateOrientation.others;
+
+SYSTEM vizkit3d_SonarBeam
+FEATURES
+  PI_updateSonarBeam : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_SonarBeam::PI_updateSonarBeam.others {
+    Taste::coordinates => "1004 861";
+    Taste::RCMoperationKind => sporadic;
+    Taste::RCMperiod => 0 ms;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "updateSonarBeam";
+  };
+  PI_updateOrientation : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_SonarBeam::PI_updateOrientation.others {
+    Taste::coordinates => "1004 890";
+    Taste::RCMoperationKind => sporadic;
+    Taste::RCMperiod => 0 ms;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "updateOrientation";
+  };
+PROPERTIES
+  Source_Language => (C);
+  Taste::Active_Interfaces => enabled;
+  Source_Text => ("vizkit3d_sonarbeam.zip");
+END vizkit3d_SonarBeam;
+
+SYSTEM IMPLEMENTATION vizkit3d_SonarBeam.others
+SUBCOMPONENTS
+  configFile : DATA DataView::Vizkit3D_FilePath {
+    Taste::FS_Default_Value => """config-range.yml""";
+  };
+  id : DATA DataView::Vizkit3D_PluginLabel {
+    Taste::FS_Default_Value => """Sonar""";
+  };
+  compilerOption : DATA DataView::Taste_directive {
+    Taste::FS_Default_Value => "compiler-option:""-DOROCOS_TARGET=gnulinux""";
+  };
+END vizkit3d_SonarBeam.others;
+
+END interfaceview::IV::vizkit3d_SonarBeam;
+
+PACKAGE interfaceview::IV
+PUBLIC
+
+WITH interfaceview::IV::test_Range;
+WITH interfaceview::IV::vizkit3d_Pointcloud;
+WITH interfaceview::IV::vizkit3d_DepthMap;
+WITH interfaceview::IV::vizkit3d_LaserScan;
+WITH interfaceview::IV::vizkit3d_SonarBeam;
+WITH Taste;
+WITH DataView;
+WITH TASTE_IV_Properties;
+SYSTEM interfaceview
+PROPERTIES
+  Taste::dataView => ("DataView");
+  Taste::dataViewPath => ("DataView.aadl");
+END interfaceview;
+
+SYSTEM IMPLEMENTATION interfaceview.others
+SUBCOMPONENTS
+  test_Range : SYSTEM interfaceview::IV::test_Range::test_Range.others {
+    Taste::coordinates => "265 199 655 406";
+  };
+  vizkit3d_Pointcloud : SYSTEM interfaceview::IV::vizkit3d_Pointcloud::vizkit3d_Pointcloud.others {
+    Taste::coordinates => "1001 212 1391 371";
+  };
+  vizkit3d_DepthMap : SYSTEM interfaceview::IV::vizkit3d_DepthMap::vizkit3d_DepthMap.others {
+    Taste::coordinates => "1003 394 1393 553";
+  };
+  vizkit3d_LaserScan : SYSTEM interfaceview::IV::vizkit3d_LaserScan::vizkit3d_LaserScan.others {
+    Taste::coordinates => "1006 574 1396 733";
+  };
+  vizkit3d_SonarBeam : SYSTEM interfaceview::IV::vizkit3d_SonarBeam::vizkit3d_SonarBeam.others {
+    Taste::coordinates => "1004 757 1394 911";
+  };
+CONNECTIONS
+  vizkit3d_Pointcloud_PI_updatePointCloud_test_Range_RI_updatePointCloud : SUBPROGRAM ACCESS vizkit3d_Pointcloud.PI_updatePointCloud -> test_Range.RI_updatePointCloud {
+    Taste::coordinates => "655 226 828 226 828 336 1001 336";
+  };
+  vizkit3d_DepthMap_PI_updateDepthMap_test_Range_RI_updateDepthMap : SUBPROGRAM ACCESS vizkit3d_DepthMap.PI_updateDepthMap -> test_Range.RI_updateDepthMap {
+    Taste::coordinates => "655 252 829 252 829 498 1003 498";
+  };
+  vizkit3d_DepthMap_PI_updatePose_test_Range_RI_updatePose_DM : SUBPROGRAM ACCESS vizkit3d_DepthMap.PI_updatePose -> test_Range.RI_updatePose_DM {
+    Taste::coordinates => "655 276 829 276 829 529 1003 529";
+  };
+  vizkit3d_LaserScan_PI_updateLaserScan_test_Range_RI_updateLaserScan : SUBPROGRAM ACCESS vizkit3d_LaserScan.PI_updateLaserScan -> test_Range.RI_updateLaserScan {
+    Taste::coordinates => "655 304 830 304 830 682 1006 682";
+  };
+  vizkit3d_LaserScan_PI_updatePose_test_Range_RI_updatePose_LS : SUBPROGRAM ACCESS vizkit3d_LaserScan.PI_updatePose -> test_Range.RI_updatePose_LS {
+    Taste::coordinates => "655 332 830 332 830 713 1006 713";
+  };
+  vizkit3d_SonarBeam_PI_updateSonarBeam_test_Range_RI_updateSonarBeam : SUBPROGRAM ACCESS vizkit3d_SonarBeam.PI_updateSonarBeam -> test_Range.RI_updateSonarBeam {
+    Taste::coordinates => "655 355 829 355 829 861 1004 861";
+  };
+  vizkit3d_SonarBeam_PI_updateOrientation_test_Range_RI_updateOrientation : SUBPROGRAM ACCESS vizkit3d_SonarBeam.PI_updateOrientation -> test_Range.RI_updateOrientation {
+    Taste::coordinates => "655 380 829 380 829 890 1004 890";
+  };
+END interfaceview.others;
+
+PROPERTIES
+  Taste::dataView => ("DataView");
+  Taste::dataViewPath => ("DataView.aadl");
+  Taste::coordinates => "0 0 2970 2100";
+  Taste::version => "2.0";
+END interfaceview::IV;
+

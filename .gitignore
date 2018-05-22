@@ -7,5 +7,8 @@ models/*/*.md5
 models/*/*.pro
 models/*/*.old
 models/*/binary.c
-models/bodystate/stim300.stl
 models/bodystate/config-bodystate.yml
+models/bodystate/stim300.stl
+models/range/config-range.yml
+models/range/sargon.png
+models/range/sonar_beam.data
