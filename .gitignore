@@ -2,3 +2,10 @@ build
 doc/Doxyfile
 *.swp
 *.zip
+models/*/__*.aadl
+models/*/*.md5
+models/*/*.pro
+models/*/*.old
+models/*/binary.c
+models/bodystate/stim300.stl
+models/bodystate/config-bodystate.yml

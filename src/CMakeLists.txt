@@ -60,6 +60,8 @@ set(HEADERS
     robotPluginWrapper.h
     sonarBeamPluginWrapper.h
     trajectoryPluginWrapper.h
+    typeConversions.hpp
+    typeDefinitions.h
     vizkit3d_taste.h
     waypointPluginWrapper.h
     wrapperTemplate.hpp
