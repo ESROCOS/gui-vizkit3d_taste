@@ -12,3 +12,4 @@ models/bodystate/stim300.stl
 models/range/config-range.yml
 models/range/sargon.png
 models/range/sonar_beam.data
+models/trajectory/config-trajectory.yml

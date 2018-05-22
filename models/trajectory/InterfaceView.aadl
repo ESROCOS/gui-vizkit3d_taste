@@ -1,0 +1,337 @@
+---------------------------------------------------
+-- AADL2.1
+-- TASTE type interfaceview
+-- 
+-- generated code: do not edit
+---------------------------------------------------
+
+PACKAGE interfaceview::IV::test_Trajectory
+PUBLIC
+
+WITH interfaceview::IV::vizkit3d_Trajectory;
+WITH interfaceview::IV::vizkit3d_Waypoint;
+WITH interfaceview::IV::vizkit3d_MotionCommand;
+WITH Taste;
+WITH DataView;
+WITH TASTE_IV_Properties;
+SUBPROGRAM PI_trigger
+PROPERTIES
+  Taste::Associated_Queue_Size => 1;
+END PI_trigger;
+
+SUBPROGRAM IMPLEMENTATION PI_trigger.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 100 ms;
+END PI_trigger.others;
+
+SUBPROGRAM RI_updateTrajectory
+FEATURES
+  point : IN PARAMETER DataView::Wrappers_Vector3d {
+    Taste::encoding => NATIVE;
+  };
+END RI_updateTrajectory;
+
+SUBPROGRAM IMPLEMENTATION RI_updateTrajectory.others
+END RI_updateTrajectory.others;
+
+SUBPROGRAM RI_updateWaypoint
+FEATURES
+  waypoint : IN PARAMETER DataView::Base_Waypoint {
+    Taste::encoding => NATIVE;
+  };
+END RI_updateWaypoint;
+
+SUBPROGRAM IMPLEMENTATION RI_updateWaypoint.others
+END RI_updateWaypoint.others;
+
+SUBPROGRAM RI_updateMotionCommand
+FEATURES
+  command : IN PARAMETER DataView::Base_commands_Motion2D {
+    Taste::encoding => NATIVE;
+  };
+END RI_updateMotionCommand;
+
+SUBPROGRAM IMPLEMENTATION RI_updateMotionCommand.others
+END RI_updateMotionCommand.others;
+
+SUBPROGRAM RI_updatePose
+FEATURES
+  pose : IN PARAMETER DataView::Base_Pose {
+    Taste::encoding => NATIVE;
+  };
+END RI_updatePose;
+
+SUBPROGRAM IMPLEMENTATION RI_updatePose.others
+END RI_updatePose.others;
+
+SYSTEM test_Trajectory
+FEATURES
+  PI_trigger : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::test_Trajectory::PI_trigger.others {
+    Taste::coordinates => "185 200";
+    Taste::RCMoperationKind => cyclic;
+    Taste::RCMperiod => 100 ms;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "trigger";
+  };
+  RI_updateTrajectory : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_Trajectory::PI_updateTrajectory.others {
+    Taste::coordinates => "503 178";
+    Taste::RCMoperationKind => any;
+    Taste::InterfaceName => "updateTrajectory";
+    Taste::labelInheritance => "true";
+  };
+  RI_updateWaypoint : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_Waypoint::PI_updateWaypoint.others {
+    Taste::coordinates => "503 237";
+    Taste::RCMoperationKind => any;
+    Taste::InterfaceName => "updateWaypoint";
+    Taste::labelInheritance => "true";
+  };
+  RI_updateMotionCommand : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_MotionCommand::PI_updateMotionCommand.others {
+    Taste::coordinates => "503 319";
+    Taste::RCMoperationKind => any;
+    Taste::InterfaceName => "updateMotionCommand";
+    Taste::labelInheritance => "true";
+  };
+  RI_updatePose : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_MotionCommand::PI_updatePose.others {
+    Taste::coordinates => "503 341";
+    Taste::RCMoperationKind => any;
+    Taste::InterfaceName => "updatePose";
+    Taste::labelInheritance => "true";
+  };
+PROPERTIES
+  Source_Language => (CPP);
+  Taste::Active_Interfaces => enabled;
+  Source_Text => ("test_trajectory.zip");
+END test_Trajectory;
+
+SYSTEM IMPLEMENTATION test_Trajectory.others
+SUBCOMPONENTS
+  compilerOption : DATA DataView::Taste_directive {
+    Taste::FS_Default_Value => "compiler-option:""-DOROCOS_TARGET=gnulinux""";
+  };
+END test_Trajectory.others;
+
+END interfaceview::IV::test_Trajectory;
+
+PACKAGE interfaceview::IV::vizkit3d_Trajectory
+PUBLIC
+
+WITH Taste;
+WITH DataView;
+WITH TASTE_IV_Properties;
+SUBPROGRAM PI_updateTrajectory
+FEATURES
+  point : IN PARAMETER DataView::Wrappers_Vector3d {
+    Taste::encoding => NATIVE;
+  };
+PROPERTIES
+  Taste::Associated_Queue_Size => 1;
+END PI_updateTrajectory;
+
+SUBPROGRAM IMPLEMENTATION PI_updateTrajectory.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 0 ms;
+END PI_updateTrajectory.others;
+
+SYSTEM vizkit3d_Trajectory
+FEATURES
+  PI_updateTrajectory : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_Trajectory::PI_updateTrajectory.others {
+    Taste::coordinates => "882 245";
+    Taste::RCMoperationKind => sporadic;
+    Taste::RCMperiod => 0 ms;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "updateTrajectory";
+  };
+PROPERTIES
+  Source_Language => (C);
+  Taste::Active_Interfaces => enabled;
+  Source_Text => ("vizkit3d_trajectory.zip");
+END vizkit3d_Trajectory;
+
+SYSTEM IMPLEMENTATION vizkit3d_Trajectory.others
+SUBCOMPONENTS
+  configFile : DATA DataView::Vizkit3D_FilePath {
+    Taste::FS_Default_Value => """config-trajectory.yml""";
+  };
+  id : DATA DataView::Vizkit3D_PluginLabel {
+    Taste::FS_Default_Value => """Trajectory""";
+  };
+  compilerOption : DATA DataView::Taste_directive {
+    Taste::FS_Default_Value => "compiler-option:""-DOROCOS_TARGET=gnulinux""";
+  };
+END vizkit3d_Trajectory.others;
+
+END interfaceview::IV::vizkit3d_Trajectory;
+
+PACKAGE interfaceview::IV::vizkit3d_Waypoint
+PUBLIC
+
+WITH Taste;
+WITH DataView;
+WITH TASTE_IV_Properties;
+SUBPROGRAM PI_updateWaypoint
+FEATURES
+  waypoint : IN PARAMETER DataView::Base_Waypoint {
+    Taste::encoding => NATIVE;
+  };
+PROPERTIES
+  Taste::Associated_Queue_Size => 1;
+END PI_updateWaypoint;
+
+SUBPROGRAM IMPLEMENTATION PI_updateWaypoint.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 0 ms;
+END PI_updateWaypoint.others;
+
+SYSTEM vizkit3d_Waypoint
+FEATURES
+  PI_updateWaypoint : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_Waypoint::PI_updateWaypoint.others {
+    Taste::coordinates => "879 424";
+    Taste::RCMoperationKind => sporadic;
+    Taste::RCMperiod => 0 ms;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "updateWaypoint";
+  };
+PROPERTIES
+  Source_Language => (C);
+  Taste::Active_Interfaces => enabled;
+  Source_Text => ("vizkit3d_waypoint.zip");
+END vizkit3d_Waypoint;
+
+SYSTEM IMPLEMENTATION vizkit3d_Waypoint.others
+SUBCOMPONENTS
+  configFile : DATA DataView::Vizkit3D_FilePath {
+    Taste::FS_Default_Value => """config-trajectory.yml""";
+  };
+  id : DATA DataView::Vizkit3D_PluginLabel {
+    Taste::FS_Default_Value => """Waypoint""";
+  };
+  compilerOption : DATA DataView::Taste_directive {
+    Taste::FS_Default_Value => "compiler-option:""-DOROCOS_TARGET=gnulinux""";
+  };
+END vizkit3d_Waypoint.others;
+
+END interfaceview::IV::vizkit3d_Waypoint;
+
+PACKAGE interfaceview::IV::vizkit3d_MotionCommand
+PUBLIC
+
+WITH Taste;
+WITH DataView;
+WITH TASTE_IV_Properties;
+SUBPROGRAM PI_updateMotionCommand
+FEATURES
+  command : IN PARAMETER DataView::Base_commands_Motion2D {
+    Taste::encoding => NATIVE;
+  };
+PROPERTIES
+  Taste::Associated_Queue_Size => 1;
+END PI_updateMotionCommand;
+
+SUBPROGRAM IMPLEMENTATION PI_updateMotionCommand.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 0 ms;
+END PI_updateMotionCommand.others;
+
+SUBPROGRAM PI_updatePose
+FEATURES
+  pose : IN PARAMETER DataView::Base_Pose {
+    Taste::encoding => NATIVE;
+  };
+PROPERTIES
+  Taste::Associated_Queue_Size => 1;
+END PI_updatePose;
+
+SUBPROGRAM IMPLEMENTATION PI_updatePose.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 0 ms;
+END PI_updatePose.others;
+
+SYSTEM vizkit3d_MotionCommand
+FEATURES
+  PI_updateMotionCommand : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_MotionCommand::PI_updateMotionCommand.others {
+    Taste::coordinates => "878 603";
+    Taste::RCMoperationKind => sporadic;
+    Taste::RCMperiod => 0 ms;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "updateMotionCommand";
+  };
+  PI_updatePose : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_MotionCommand::PI_updatePose.others {
+    Taste::coordinates => "878 631";
+    Taste::RCMoperationKind => sporadic;
+    Taste::RCMperiod => 0 ms;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "updatePose";
+  };
+PROPERTIES
+  Source_Language => (C);
+  Taste::Active_Interfaces => enabled;
+  Source_Text => ("vizkit3d_motioncommand.zip");
+END vizkit3d_MotionCommand;
+
+SYSTEM IMPLEMENTATION vizkit3d_MotionCommand.others
+SUBCOMPONENTS
+  configFile : DATA DataView::Vizkit3D_FilePath {
+    Taste::FS_Default_Value => """config-trajectory.yml""";
+  };
+  id : DATA DataView::Vizkit3D_PluginLabel {
+    Taste::FS_Default_Value => """Command""";
+  };
+  compilerOption : DATA DataView::Taste_directive {
+    Taste::FS_Default_Value => "compiler-option:""-DOROCOS_TARGET=gnulinux""";
+  };
+END vizkit3d_MotionCommand.others;
+
+END interfaceview::IV::vizkit3d_MotionCommand;
+
+PACKAGE interfaceview::IV
+PUBLIC
+
+WITH interfaceview::IV::test_Trajectory;
+WITH interfaceview::IV::vizkit3d_Trajectory;
+WITH interfaceview::IV::vizkit3d_Waypoint;
+WITH interfaceview::IV::vizkit3d_MotionCommand;
+WITH Taste;
+WITH DataView;
+WITH TASTE_IV_Properties;
+SYSTEM interfaceview
+PROPERTIES
+  Taste::dataView => ("DataView");
+  Taste::dataViewPath => ("DataView.aadl");
+END interfaceview;
+
+SYSTEM IMPLEMENTATION interfaceview.others
+SUBCOMPONENTS
+  test_Trajectory : SYSTEM interfaceview::IV::test_Trajectory::test_Trajectory.others {
+    Taste::coordinates => "185 149 503 368";
+  };
+  vizkit3d_Trajectory : SYSTEM interfaceview::IV::vizkit3d_Trajectory::vizkit3d_Trajectory.others {
+    Taste::coordinates => "882 128 1175 277";
+  };
+  vizkit3d_Waypoint : SYSTEM interfaceview::IV::vizkit3d_Waypoint::vizkit3d_Waypoint.others {
+    Taste::coordinates => "879 309 1177 458";
+  };
+  vizkit3d_MotionCommand : SYSTEM interfaceview::IV::vizkit3d_MotionCommand::vizkit3d_MotionCommand.others {
+    Taste::coordinates => "878 501 1177 650";
+  };
+CONNECTIONS
+  vizkit3d_Trajectory_PI_updateTrajectory_test_Trajectory_RI_updateTrajectory : SUBPROGRAM ACCESS vizkit3d_Trajectory.PI_updateTrajectory -> test_Trajectory.RI_updateTrajectory {
+    Taste::coordinates => "503 178 692 178 692 245 882 245";
+  };
+  vizkit3d_Waypoint_PI_updateWaypoint_test_Trajectory_RI_updateWaypoint : SUBPROGRAM ACCESS vizkit3d_Waypoint.PI_updateWaypoint -> test_Trajectory.RI_updateWaypoint {
+    Taste::coordinates => "503 237 691 237 691 424 879 424";
+  };
+  vizkit3d_MotionCommand_PI_updateMotionCommand_test_Trajectory_RI_updateMotionCommand : SUBPROGRAM ACCESS vizkit3d_MotionCommand.PI_updateMotionCommand -> test_Trajectory.RI_updateMotionCommand {
+    Taste::coordinates => "503 319 690 319 690 603 878 603";
+  };
+  vizkit3d_MotionCommand_PI_updatePose_test_Trajectory_RI_updatePose : SUBPROGRAM ACCESS vizkit3d_MotionCommand.PI_updatePose -> test_Trajectory.RI_updatePose {
+    Taste::coordinates => "503 341 690 341 690 631 878 631";
+  };
+END interfaceview.others;
+
+PROPERTIES
+  Taste::dataView => ("DataView");
+  Taste::dataViewPath => ("DataView.aadl");
+  Taste::coordinates => "0 0 2970 2100";
+  Taste::version => "2.0";
+END interfaceview::IV;
+
