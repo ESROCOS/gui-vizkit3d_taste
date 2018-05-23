@@ -1,0 +1,30 @@
+--  This file was generated automatically: DO NOT MODIFY IT !
+
+--  This file contains a part of the system CONCURRENCY VIEW.
+--  It is an input file for OCARINA.
+
+package test_robot_CV_Thread
+public
+	with Deployment;
+	with process_package;
+	with Dataview;
+
+THREAD test_robot_test_robot
+features
+	OUTPORT_updateRigidBodyState : OUT EVENT DATA PORT DataView::Base_samples_RigidBodyState_Buffer.impl;
+	OUTPORT_updateJoints : OUT EVENT DATA PORT DataView::Base_commands_Joints_Buffer.impl;
+END test_robot_test_robot;
+
+THREAD IMPLEMENTATION test_robot_test_robot.others
+PROPERTIES
+	Initialize_Entrypoint_Source_Text => "test_robot_wrappers.C_Init_test_robot";
+	Compute_Entrypoint_Source_Text => "test_robot_wrappers.trigger";
+	Dispatch_Protocol => Periodic;
+	Period            => 1000 ms;
+	Dispatch_Offset   => 0 ms;
+	Compute_Execution_Time => 0 ms .. 100 ms;
+	Stack_Size => 5 KByte;
+	Priority => 2;
+END test_robot_test_robot.others;
+
+end test_robot_CV_Thread;

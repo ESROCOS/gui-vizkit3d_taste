@@ -5,4 +5,5 @@
 add_subdirectory(types)
 add_subdirectory(bodystate)
 add_subdirectory(range)
+add_subdirectory(robot)
 add_subdirectory(trajectory)

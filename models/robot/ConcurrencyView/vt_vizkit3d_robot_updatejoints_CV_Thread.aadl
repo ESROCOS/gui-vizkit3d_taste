@@ -1,0 +1,31 @@
+--  This file was generated automatically: DO NOT MODIFY IT !
+
+--  This file contains a part of the system CONCURRENCY VIEW.
+--  It is an input file for OCARINA.
+
+package vt_vizkit3d_robot_updatejoints_CV_Thread
+public
+	with Deployment;
+	with process_package;
+	with Dataview;
+
+THREAD vt_vizkit3d_robot_updatejoints_vt_vizkit3d_robot_updatejoints
+features
+	INPORT_artificial_updateJoints : IN EVENT DATA PORT DataView::Base_commands_Joints_Buffer.impl
+		{ Compute_Execution_Time => 0 ms .. 0 ms;
+		  Queue_Size => 1;
+		  Compute_Entrypoint_Source_Text => "vt_vizkit3d_robot_updatejoints_wrappers.artificial_updateJoints"; };
+END vt_vizkit3d_robot_updatejoints_vt_vizkit3d_robot_updatejoints;
+
+THREAD IMPLEMENTATION vt_vizkit3d_robot_updatejoints_vt_vizkit3d_robot_updatejoints.others
+PROPERTIES
+	Initialize_Entrypoint_Source_Text => "vizkit3d_robot_wrappers.C_Init_vizkit3d_robot";
+	Dispatch_Protocol => Sporadic;
+	Period            => 1 ms;
+	Dispatch_Offset   => 0 ms;
+	Compute_Execution_Time => 0 ms .. 0 ms;
+	Stack_Size => 5 KByte;
+	Priority => 10;
+END vt_vizkit3d_robot_updatejoints_vt_vizkit3d_robot_updatejoints.others;
+
+end vt_vizkit3d_robot_updatejoints_CV_Thread;

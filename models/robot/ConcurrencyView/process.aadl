@@ -1,0 +1,42 @@
+--  This file was generated automatically: DO NOT MODIFY IT !
+
+--  This file contains a part of the system CONCURRENCY VIEW.
+--  It is an input file for OCARINA.
+
+package process_package
+public
+	with Deployment;
+	with DataView;
+	with interfaceview::IV;
+	with deploymentview::DV;
+	with ocarina_processors_x86;
+	with test_robot_CV_Thread;
+	with vt_vizkit3d_robot_updaterigidbodystate_CV_Thread;
+	with vt_vizkit3d_robot_updatejoints_CV_Thread;
+
+process x86_partition extends deploymentview::DV::node1::x86_partition
+end x86_partition;
+
+process implementation x86_partition.final
+subcomponents
+	test_robot : thread test_robot_CV_Thread::test_robot_test_robot.others;
+	vt_vizkit3d_robot_updaterigidbodystate : thread vt_vizkit3d_robot_updaterigidbodystate_CV_Thread::vt_vizkit3d_robot_updaterigidbodystate_vt_vizkit3d_robot_updaterigidbodystate.others;
+	vt_vizkit3d_robot_updatejoints : thread vt_vizkit3d_robot_updatejoints_CV_Thread::vt_vizkit3d_robot_updatejoints_vt_vizkit3d_robot_updatejoints.others;
+connections
+	PORT test_robot.OUTPORT_updateRigidBodyState -> vt_vizkit3d_robot_updaterigidbodystate.INPORT_artificial_updateRigidBodyState;
+	PORT test_robot.OUTPORT_updateJoints -> vt_vizkit3d_robot_updatejoints.INPORT_artificial_updateJoints;
+end x86_partition.final;
+
+system deploymentview
+end deploymentview;
+
+system implementation deploymentview.final
+subcomponents
+  x86_partition: process x86_partition.final;
+  node1_x86_linux_cv : processor ocarina_processors_x86::x86.linux;
+properties
+  Actual_Processor_Binding => (reference (node1_x86_linux_cv)) applies to x86_partition;
+end deploymentview.final;
+end process_package;
+
+-- deploymentview.final

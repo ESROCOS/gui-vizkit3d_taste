@@ -1,0 +1,188 @@
+---------------------------------------------------
+-- AADL2.1
+-- TASTE type interfaceview
+-- 
+-- generated code: do not edit
+---------------------------------------------------
+
+PACKAGE interfaceview::IV::vizkit3d_Robot
+PUBLIC
+
+WITH Taste;
+WITH DataView;
+WITH TASTE_IV_Properties;
+SUBPROGRAM PI_updateRigidBodyState
+FEATURES
+  rbs : IN PARAMETER DataView::Base_samples_RigidBodyState {
+    Taste::encoding => NATIVE;
+  };
+PROPERTIES
+  Taste::Associated_Queue_Size => 1;
+END PI_updateRigidBodyState;
+
+SUBPROGRAM IMPLEMENTATION PI_updateRigidBodyState.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 0 ms;
+END PI_updateRigidBodyState.others;
+
+SUBPROGRAM PI_updateJoints
+FEATURES
+  joints : IN PARAMETER DataView::Base_commands_Joints {
+    Taste::encoding => NATIVE;
+  };
+PROPERTIES
+  Taste::Associated_Queue_Size => 1;
+END PI_updateJoints;
+
+SUBPROGRAM IMPLEMENTATION PI_updateJoints.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 0 ms;
+END PI_updateJoints.others;
+
+SYSTEM vizkit3d_Robot
+FEATURES
+  PI_updateRigidBodyState : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_Robot::PI_updateRigidBodyState.others {
+    Taste::coordinates => "1432 570";
+    Taste::RCMoperationKind => sporadic;
+    Taste::RCMperiod => 0 ms;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "updateRigidBodyState";
+  };
+  PI_updateJoints : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_Robot::PI_updateJoints.others {
+    Taste::coordinates => "1432 613";
+    Taste::RCMoperationKind => sporadic;
+    Taste::RCMperiod => 0 ms;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "updateJoints";
+  };
+PROPERTIES
+  Source_Language => (C);
+  Taste::Active_Interfaces => enabled;
+END vizkit3d_Robot;
+
+SYSTEM IMPLEMENTATION vizkit3d_Robot.others
+SUBCOMPONENTS
+  configFile : DATA DataView::Vizkit3D_FilePath {
+    Taste::FS_Default_Value => """config-robot.yml""";
+  };
+  id : DATA DataView::Vizkit3D_PluginLabel {
+    Taste::FS_Default_Value => """Robot""";
+  };
+  compilerOption : DATA DataView::Taste_directive {
+    Taste::FS_Default_Value => "compiler-option:""-DOROCOS_TARGET&eq;gnulinux""";
+  };
+END vizkit3d_Robot.others;
+
+END interfaceview::IV::vizkit3d_Robot;
+
+PACKAGE interfaceview::IV::test_Robot
+PUBLIC
+
+WITH interfaceview::IV::vizkit3d_Robot;
+WITH Taste;
+WITH DataView;
+WITH TASTE_IV_Properties;
+SUBPROGRAM PI_trigger
+END PI_trigger;
+
+SUBPROGRAM IMPLEMENTATION PI_trigger.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 100 ms;
+END PI_trigger.others;
+
+SUBPROGRAM RI_updateRigidBodyState
+FEATURES
+  rbs : IN PARAMETER DataView::Base_samples_RigidBodyState {
+    Taste::encoding => NATIVE;
+  };
+END RI_updateRigidBodyState;
+
+SUBPROGRAM IMPLEMENTATION RI_updateRigidBodyState.others
+END RI_updateRigidBodyState.others;
+
+SUBPROGRAM RI_updateJoints
+FEATURES
+  joints : IN PARAMETER DataView::Base_commands_Joints {
+    Taste::encoding => NATIVE;
+  };
+END RI_updateJoints;
+
+SUBPROGRAM IMPLEMENTATION RI_updateJoints.others
+END RI_updateJoints.others;
+
+SYSTEM test_Robot
+FEATURES
+  PI_trigger : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::test_Robot::PI_trigger.others {
+    Taste::coordinates => "524 463";
+    Taste::RCMoperationKind => cyclic;
+    Taste::RCMperiod => 100 ms;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "trigger";
+  };
+  RI_updateRigidBodyState : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_Robot::PI_updateRigidBodyState.others {
+    Taste::coordinates => "956 570";
+    Taste::RCMoperationKind => any;
+    Taste::InterfaceName => "updateRigidBodyState";
+    Taste::labelInheritance => "true";
+  };
+  RI_updateJoints : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::vizkit3d_Robot::PI_updateJoints.others {
+    Taste::coordinates => "956 613";
+    Taste::RCMoperationKind => any;
+    Taste::InterfaceName => "updateJoints";
+    Taste::labelInheritance => "true";
+  };
+PROPERTIES
+  Source_Language => (CPP);
+  Taste::Active_Interfaces => enabled;
+END test_Robot;
+
+SYSTEM IMPLEMENTATION test_Robot.others
+SUBCOMPONENTS
+  compilerOption : DATA DataView::Taste_directive {
+    Taste::FS_Default_Value => "compiler-option:""-DOROCOS_TARGET&eq;gnulinux""";
+  };
+END test_Robot.others;
+
+END interfaceview::IV::test_Robot;
+
+PACKAGE interfaceview::IV
+PUBLIC
+
+WITH interfaceview::IV::vizkit3d_Robot;
+WITH interfaceview::IV::test_Robot;
+WITH Taste;
+WITH DataView;
+WITH TASTE_IV_Properties;
+SYSTEM interfaceview
+PROPERTIES
+  Taste::dataView => ("DataView");
+  Taste::dataViewPath => ("DataView.aadl");
+END interfaceview;
+
+SYSTEM IMPLEMENTATION interfaceview.others
+SUBCOMPONENTS
+-- [ interfaceview::IV::interfaceview.others.vizkit3d_Robot - text 
+--vizkit3d plugin RigidBodyStateVisualization. 
+--]
+  vizkit3d_Robot : SYSTEM interfaceview::IV::vizkit3d_Robot::vizkit3d_Robot.others {
+    Taste::coordinates => "1432 432 1783 647";
+  };
+  test_Robot : SYSTEM interfaceview::IV::test_Robot::test_Robot.others {
+    Taste::coordinates => "524 430 956 650";
+  };
+CONNECTIONS
+  vizkit3d_Robot_PI_updateRigidBodyState_test_Robot_RI_updateRigidBodyState : SUBPROGRAM ACCESS vizkit3d_Robot.PI_updateRigidBodyState -> test_Robot.RI_updateRigidBodyState {
+    Taste::coordinates => "956 570 1194 570 1194 570 1432 570";
+  };
+  vizkit3d_Robot_PI_updateJoints_test_Robot_RI_updateJoints : SUBPROGRAM ACCESS vizkit3d_Robot.PI_updateJoints -> test_Robot.RI_updateJoints {
+    Taste::coordinates => "956 613 1194 613 1194 613 1432 613";
+  };
+END interfaceview.others;
+
+PROPERTIES
+  Taste::dataView => ("DataView");
+  Taste::dataViewPath => ("DataView.aadl");
+  Taste::coordinates => "0 0 2970 2100";
+  Taste::version => "2.0";
+END interfaceview::IV;
+
