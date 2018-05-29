@@ -14,6 +14,7 @@ esrocos_build_taste(vizkit3d_range_widgets
 )
 
 add_dependencies(vizkit3d_range_widgets
+    vizkit3d_taste
     vizkit3d_types    
     vizkit3d_lib
     vizkit3d_headers
