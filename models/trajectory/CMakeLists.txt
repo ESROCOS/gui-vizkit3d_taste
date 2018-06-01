@@ -10,9 +10,7 @@ esrocos_build_taste(vizkit3d_trajectory_widgets
     vizkit3d_waypoint
     BINARIES
     binary.c/binaries/x86_partition
-)
-
-add_dependencies(vizkit3d_trajectory_widgets
+    DEPENDS
     vizkit3d_taste
     vizkit3d_types
     vizkit3d_lib

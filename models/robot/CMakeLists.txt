@@ -8,9 +8,7 @@ esrocos_build_taste(vizkit3d_robot_widgets
     vizkit3d_robot
     BINARIES
     binary.c/binaries/x86_partition
-)
-
-add_dependencies(vizkit3d_robot_widgets
+    DEPENDS
     vizkit3d_taste
     vizkit3d_types
     vizkit3d_lib
