@@ -6,8 +6,8 @@
     <author>GMV Aerospace &amp; Defence S.A.U.</author>
     <copyright>GMV 2018</copyright>
     <license>GPLv2</license>
+    <depend package="tools/config" />
     <depend package="yaml-cpp" />
-    <depend package="base/cmake" />
     <depend package="gui/vizkit3d" />
     <depend package="gui/robot_model" />
     <depend package="types/base" />

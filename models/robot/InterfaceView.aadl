@@ -69,7 +69,7 @@ SUBCOMPONENTS
     Taste::FS_Default_Value => """Robot""";
   };
   compilerOption : DATA DataView::Taste_directive {
-    Taste::FS_Default_Value => "compiler-option:""-DOROCOS_TARGET&eq;gnulinux""";
+    Taste::FS_Default_Value => "compiler-option:""-DOROCOS_TARGET=gnulinux""";
   };
 END vizkit3d_Robot.others;
 
@@ -139,7 +139,7 @@ END test_Robot;
 SYSTEM IMPLEMENTATION test_Robot.others
 SUBCOMPONENTS
   compilerOption : DATA DataView::Taste_directive {
-    Taste::FS_Default_Value => "compiler-option:""-DOROCOS_TARGET&eq;gnulinux""";
+    Taste::FS_Default_Value => "compiler-option:""-DOROCOS_TARGET=gnulinux""";
   };
 END test_Robot.others;
 
