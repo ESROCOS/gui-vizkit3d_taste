@@ -5,8 +5,10 @@
 /* Function static data is declared in this file : */
 #include "Context-vizkit3d-sonarbeam.h"
 
-#include "vizkit3d_taste/vizkit3d_taste.h"
-#include "vizkit3d_taste/sonarBeamPluginWrapper.h"
+#include "vizkit3d_taste/vizkit3d_taste.hpp"
+#include "vizkit3d_taste/sonarBeamPluginWrapper.hpp"
+#include "base_support/Base-samples-RigidBodyStateConvert.hpp"
+#include "base_support/Base-samples-SonarBeamConvert.hpp"
 #include <stdio.h>
 
 int g_statusOk = 0; // flag to avoid calling vizkit3d if instance not initialized or failed
@@ -37,7 +39,9 @@ void vizkit3d_sonarbeam_PI_updateSonarBeam(const asn1SccBase_samples_SonarBeam *
     
     if (g_statusOk)
     {
-        result = SonarBeamVisualization_updateSonarBeam(vizkit3d_sonarbeam_ctxt.id, IN_beam);
+        base::samples::SonarBeam beam;
+        asn1SccBase_samples_SonarBeam_fromAsn1(beam, *IN_beam);
+        result = SonarBeamVisualization_updateSonarBeam(vizkit3d_sonarbeam_ctxt.id, beam);
         
         if (VIZTASTE_TERMINATED == result)
         {
@@ -58,7 +62,9 @@ void vizkit3d_sonarbeam_PI_updateOrientation(const asn1SccBase_samples_RigidBody
     
     if (g_statusOk)
     {
-        result = SonarBeamVisualization_updateOrientation(vizkit3d_sonarbeam_ctxt.id, IN_rbs);
+        base::samples::RigidBodyState rbs;
+        asn1SccBase_samples_RigidBodyState_fromAsn1(rbs, *IN_rbs);
+        result = SonarBeamVisualization_updateOrientation(vizkit3d_sonarbeam_ctxt.id, rbs);
         
         if (VIZTASTE_TERMINATED == result)
         {

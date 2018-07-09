@@ -4,10 +4,9 @@
  * Licence: GPLv2
  */
 
-#include "vizkit3d_taste.h"
-#include "bodyStatePluginWrapper.h"
-#include "rigidBodyStatePluginWrapper.h"
-#include "typeConversions.hpp"
+#include "vizkit3d_taste.hpp"
+#include "bodyStatePluginWrapper.hpp"
+#include "rigidBodyStatePluginWrapper.hpp"
 #include "base/Eigen.hpp"
 #include <thread>
 #include <cmath>
@@ -17,33 +16,31 @@
 void update()
 {
     // Body state
-    asn1_BodyState bs;
-    base::Vector3d translation(0.0, 0.0, 0.5);
-    Vector3d_toAsn1(bs.pose.translation, translation);
+    base::samples::BodyState bs;
+    bs.pose.translation = base::Vector3d(0.0, 0.0, 0.5);
     
     // Rigid body state
-    asn1_RigidBodyState rbs;
+    base::samples::RigidBodyState rbs;
 
     for (int i = 0; ; ++i)
     {
         // Rotation angle
-        base::AngleAxisd aa(i*M_PI/180.0, base::Vector3d::UnitX());
-        base::Quaterniond orientation(aa);
+        base::Quaterniond orientation(base::AngleAxisd(i*M_PI/180.0, base::Vector3d::UnitX()));
 
         int result = VIZTASTE_OK;
         
         // Body state
         if (VIZTASTE_OK == result)
         {    
-            Quaterniond_toAsn1(bs.pose.orientation, orientation);
-            result = BodyStateVisualization_updateBodyState("BS", &bs);
+            bs.pose.orientation = orientation;
+            result = BodyStateVisualization_updateBodyState("BS", bs);
         }
         
         // Rigid body state
         if (VIZTASTE_OK == result)
         {    
-            Quaterniond_toAsn1(rbs.orientation, orientation);
-            result = RigidBodyStateVisualization_updateRigidBodyState("RBS", &rbs);
+            rbs.orientation = orientation;
+            result = RigidBodyStateVisualization_updateRigidBodyState("RBS", rbs);
         }
         
         switch (result)
@@ -79,6 +76,7 @@ int main(int argc, char** argv)
 
     std::thread t1(update);
     t1.join();
+    usleep(100);
 
     return 0;
 }

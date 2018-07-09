@@ -25,7 +25,9 @@ public:
 
     void updateData(const base::Vector3d& vector) { updateTrajectory(vector); }
 
-    // updateSpline not added, missing data type
+    void updateSpline(const base::geometry::Spline<3>& spline);
+
+    void updateData(const base::geometry::Spline<3>& spline) { updateSpline(spline); }
 
 private:
     // Vizkit plugin

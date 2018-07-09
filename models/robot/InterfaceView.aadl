@@ -56,7 +56,7 @@ FEATURES
     Taste::InterfaceName => "updateJoints";
   };
 PROPERTIES
-  Source_Language => (C);
+  Source_Language => (CPP);
   Taste::Active_Interfaces => enabled;
 END vizkit3d_Robot;
 
@@ -83,6 +83,8 @@ WITH Taste;
 WITH DataView;
 WITH TASTE_IV_Properties;
 SUBPROGRAM PI_trigger
+PROPERTIES
+  Taste::Associated_Queue_Size => 1;
 END PI_trigger;
 
 SUBPROGRAM IMPLEMENTATION PI_trigger.others

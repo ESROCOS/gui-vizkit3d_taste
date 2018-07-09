@@ -35,9 +35,8 @@ FEATURES
     Taste::InterfaceName => "updateRigidBodyState";
   };
 PROPERTIES
-  Source_Language => (C);
+  Source_Language => (CPP);
   Taste::Active_Interfaces => enabled;
-  Source_Text => ("vizkit3d_rigidbodystate.zip");
 END vizkit3d_RigidBodyState;
 
 SYSTEM IMPLEMENTATION vizkit3d_RigidBodyState.others
@@ -117,10 +116,13 @@ FEATURES
 PROPERTIES
   Source_Language => (CPP);
   Taste::Active_Interfaces => enabled;
-  Source_Text => ("test_bodystate.zip");
 END test_BodyState;
 
 SYSTEM IMPLEMENTATION test_BodyState.others
+SUBCOMPONENTS
+  compilerOption : DATA DataView::Taste_directive {
+    Taste::FS_Default_Value => "compiler-option:""-DOROCOS_TARGET=gnulinux""";
+  };
 END test_BodyState.others;
 
 END interfaceview::IV::test_BodyState;
@@ -155,9 +157,8 @@ FEATURES
     Taste::InterfaceName => "updateBodyState";
   };
 PROPERTIES
-  Source_Language => (C);
+  Source_Language => (CPP);
   Taste::Active_Interfaces => enabled;
-  Source_Text => ("vizkit3d_bodystate.zip");
 END vizkit3d_BodyState;
 
 SYSTEM IMPLEMENTATION vizkit3d_BodyState.others

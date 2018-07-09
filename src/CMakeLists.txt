@@ -51,19 +51,17 @@ set(HEADERS
     TrajectoryPluginController.hpp
     VizkitInstance.hpp
     WaypointPluginController.hpp
-    bodyStatePluginWrapper.h
-    depthMapPluginWrapper.h
-    laserScanPluginWrapper.h
-    motionCommandPluginWrapper.h
-    pointcloudPluginWrapper.h
-    rigidBodyStatePluginWrapper.h
-    robotPluginWrapper.h
-    sonarBeamPluginWrapper.h
-    trajectoryPluginWrapper.h
-    typeConversions.hpp
-    typeDefinitions.h
-    vizkit3d_taste.h
-    waypointPluginWrapper.h
+    bodyStatePluginWrapper.hpp
+    depthMapPluginWrapper.hpp
+    laserScanPluginWrapper.hpp
+    motionCommandPluginWrapper.hpp
+    pointcloudPluginWrapper.hpp
+    rigidBodyStatePluginWrapper.hpp
+    robotPluginWrapper.hpp
+    sonarBeamPluginWrapper.hpp
+    trajectoryPluginWrapper.hpp
+    vizkit3d_taste.hpp
+    waypointPluginWrapper.hpp
     wrapperTemplate.hpp
 )
 

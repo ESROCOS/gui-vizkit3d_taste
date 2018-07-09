@@ -4,7 +4,7 @@
  * Licence: GPLv2
  */
 
-#include "vizkit3d_taste.h"
+#include "vizkit3d_taste.hpp"
 #include "VizkitInstance.hpp"
 #include <iostream>
 

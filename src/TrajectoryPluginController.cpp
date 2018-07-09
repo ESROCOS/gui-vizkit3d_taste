@@ -88,3 +88,9 @@ void TrajectoryPluginController::updateTrajectory(const base::Vector3d& vector)
     assert(NULL != m_pPlugin);
     m_pPlugin->updateTrajectory(vector);
 }
+
+void TrajectoryPluginController::updateSpline(const base::geometry::Spline<3>& spline)
+{
+    assert(NULL != m_pPlugin);
+    m_pPlugin->updateSpline(spline);
+}

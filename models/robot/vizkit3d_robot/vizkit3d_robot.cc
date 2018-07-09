@@ -5,8 +5,10 @@
 /* Function static data is declared in this file : */
 #include "Context-vizkit3d-robot.h"
 
-#include "vizkit3d_taste/vizkit3d_taste.h"
-#include "vizkit3d_taste/robotPluginWrapper.h"
+#include "vizkit3d_taste/vizkit3d_taste.hpp"
+#include "vizkit3d_taste/robotPluginWrapper.hpp"
+#include "base_support/Base-samples-RigidBodyStateConvert.hpp"
+#include "base_support/Base-commands-JointsConvert.hpp"
 #include <stdio.h>
 
 int g_statusOk = 0; // flag to avoid calling vizkit3d if instance not initialized or failed
@@ -37,7 +39,9 @@ void vizkit3d_robot_PI_updateRigidBodyState(const asn1SccBase_samples_RigidBodyS
     
     if (g_statusOk)
     {
-        result = RobotVisualization_updateRigidBodyState(vizkit3d_robot_ctxt.id, IN_rbs);
+        base::samples::RigidBodyState rbs;
+        asn1SccBase_samples_RigidBodyState_fromAsn1(rbs, *IN_rbs);
+        result = RobotVisualization_updateRigidBodyState(vizkit3d_robot_ctxt.id, rbs);
         
         if (VIZTASTE_TERMINATED == result)
         {
@@ -58,7 +62,9 @@ void vizkit3d_robot_PI_updateJoints(const asn1SccBase_commands_Joints *IN_joints
     
     if (g_statusOk)
     {
-        result = RobotVisualization_updateJoints(vizkit3d_robot_ctxt.id, IN_joints);
+        base::samples::Joints joints;
+        asn1SccBase_commands_Joints_fromAsn1(joints, *IN_joints);
+        result = RobotVisualization_updateJoints(vizkit3d_robot_ctxt.id, joints);
         
         if (VIZTASTE_TERMINATED == result)
         {

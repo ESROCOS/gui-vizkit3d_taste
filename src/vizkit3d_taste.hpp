@@ -4,13 +4,8 @@
  * Licence: GPLv2
  */
 
-#ifndef VIZKIT_TASTE_H
-#define VIZKIT_TASTE_H
-
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+#ifndef VIZKIT_TASTE_HPP
+#define VIZKIT_TASTE_HPP
 
 // vizkit3d_c return codes
 #define VIZTASTE_OK 0
@@ -23,8 +18,4 @@ extern "C"
 // Initialize Vizkit: only the first call by any thread takes effect
 int initializeVizkitOnce(const char* configFile);
 
-#ifdef __cplusplus
-} // extern "C"
-#endif
-
-#endif //VIZKIT_TASTE_H
+#endif //VIZKIT_TASTE_HPP

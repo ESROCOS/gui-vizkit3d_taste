@@ -5,8 +5,9 @@
 /* Function static data is declared in this file : */
 #include "Context-vizkit3d-rigidbodystate.h"
 
-#include "vizkit3d_taste/vizkit3d_taste.h"
-#include "vizkit3d_taste/rigidBodyStatePluginWrapper.h"
+#include "vizkit3d_taste/vizkit3d_taste.hpp"
+#include "vizkit3d_taste/rigidBodyStatePluginWrapper.hpp"
+#include "base_support/Base-samples-RigidBodyStateConvert.hpp"
 #include <stdio.h>
 
 int g_statusOk = 0; // flag to avoid calling vizkit3d if instance not initialized or failed
@@ -34,10 +35,12 @@ void vizkit3d_rigidbodystate_startup()
 void vizkit3d_rigidbodystate_PI_updateRigidBodyState(const asn1SccBase_samples_RigidBodyState *IN_state)
 {
     int result;
+    base::samples::RigidBodyState rbs;
     
     if (g_statusOk)
     {
-        result = RigidBodyStateVisualization_updateRigidBodyState(vizkit3d_rigidbodystate_ctxt.id, IN_state);
+        asn1SccBase_samples_RigidBodyState_fromAsn1(rbs, *IN_state);
+        result = RigidBodyStateVisualization_updateRigidBodyState(vizkit3d_rigidbodystate_ctxt.id, rbs);
         
         if (VIZTASTE_TERMINATED == result)
         {

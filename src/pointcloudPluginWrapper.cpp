@@ -4,13 +4,12 @@
  * Licence: GPLv2
  */
 
-#include "pointcloudPluginWrapper.h"
+#include "pointcloudPluginWrapper.hpp"
 #include "PointcloudPluginController.hpp"
 #include "wrapperTemplate.hpp"
-#include "typeConversions.hpp"
 
 
-int PointcloudVisualization_updatePointCloud(const char* pluginName, const asn1_Pointcloud* state)
+int PointcloudVisualization_updatePointCloud(const char* pluginName, const base::samples::Pointcloud& cloud)
 {
-    return updatePluginData<PointcloudPluginController>(pluginName, "PointCloudVisualization", state, Pointcloud_fromAsn1);
+    return updatePluginData<PointcloudPluginController>(pluginName, "PointCloudVisualization", cloud);
 }

@@ -5,8 +5,9 @@
 /* Function static data is declared in this file : */
 #include "Context-vizkit3d-trajectory.h"
 
-#include "vizkit3d_taste/vizkit3d_taste.h"
-#include "vizkit3d_taste/trajectoryPluginWrapper.h"
+#include "vizkit3d_taste/vizkit3d_taste.hpp"
+#include "vizkit3d_taste/trajectoryPluginWrapper.hpp"
+#include "base_support/OpaqueConversion.hpp"
 #include <stdio.h>
 
 int g_statusOk = 0; // flag to avoid calling vizkit3d if instance not initialized or failed
@@ -37,7 +38,9 @@ void vizkit3d_trajectory_PI_updateTrajectory(const asn1SccWrappers_Vector3d *IN_
     
     if (g_statusOk)
     {
-        result = TrajectoryVisualization_updateTrajectory(vizkit3d_trajectory_ctxt.id, IN_point);
+        base::Vector3d tr;
+        asn1Scc_Vector3d_fromAsn1(tr, *IN_point);
+        result = TrajectoryVisualization_updateTrajectory(vizkit3d_trajectory_ctxt.id, tr);
         
         if (VIZTASTE_TERMINATED == result)
         {

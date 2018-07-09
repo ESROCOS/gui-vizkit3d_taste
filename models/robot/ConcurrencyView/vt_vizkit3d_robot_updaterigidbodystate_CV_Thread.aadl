@@ -20,12 +20,12 @@ END vt_vizkit3d_robot_updaterigidbodystate_vt_vizkit3d_robot_updaterigidbodystat
 THREAD IMPLEMENTATION vt_vizkit3d_robot_updaterigidbodystate_vt_vizkit3d_robot_updaterigidbodystate.others
 PROPERTIES
 	Initialize_Entrypoint_Source_Text => "vizkit3d_robot_wrappers.C_Init_vizkit3d_robot";
-	Dispatch_Protocol => Sporadic;
-	Period            => 1 ms;
-	Dispatch_Offset   => 0 ms;
-	Compute_Execution_Time => 0 ms .. 0 ms;
-	Stack_Size => 5 KByte;
-	Priority => 10;
+	Dispatch_Protocol      => Sporadic;
+	Period                 => 1 ms;
+	Dispatch_Offset        => 0 ms;
+	Compute_Execution_Time => 0 ms .. 10 ms;
+	Stack_Size             => 100 KByte;
+	Priority               => 10;
 END vt_vizkit3d_robot_updaterigidbodystate_vt_vizkit3d_robot_updaterigidbodystate.others;
 
 end vt_vizkit3d_robot_updaterigidbodystate_CV_Thread;

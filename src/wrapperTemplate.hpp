@@ -7,19 +7,18 @@
 #ifndef WRAPPERTEMPLATE_HPP
 #define WRAPPERTEMPLATE_HPP
 
-#include "vizkit3d_taste.h"
+#include "vizkit3d_taste.hpp"
 #include "VizkitInstance.hpp"
 
 // Template for update function: returns VIZTASTE_XXX
 // Usage:
-//     return updatePluginData<PLUGIN_CONTROLLER_CLASS>(pluginName, ASN1_DATA, TYPE_fromAsn1);
+//     return updatePluginData<PLUGIN_CONTROLLER_CLASS>(pluginName, ROCK_DATA);
 // Where:
 //     - PLUGIN_CONTROLLER_CLASS: subclass of PluginController (e.g. RigidBodyStatePluginController)
-//     - ASN1_DATA: value of C type generated from ASN.1 to convert and pass to the plugin's updateData method (e.g. state, of type const asn1_RigidBodyState*)
-//     - TYPE_fromAsn1: type conversion function from asn1_types_support (e.g. RigidBodyState_fromAsn1)
+//     - ROCK_DATA: value to pass to the plugin's updateData method (e.g. state, of type RigidBodyState)
 //
-template<typename PLUGIN_T, typename ASN1_DATA_T, typename ROCK_DATA_T>
-int updatePluginData(const char* pluginName, const char* pluginType, const ASN1_DATA_T* data, void convertAsn1ToRock(ROCK_DATA_T&, const ASN1_DATA_T&))
+template<typename PLUGIN_T, typename ROCK_DATA_T>
+int updatePluginData(const char* pluginName, const char* pluginType, const ROCK_DATA_T& data)
 {
     PLUGIN_T* plugin = NULL;
     
@@ -33,9 +32,7 @@ int updatePluginData(const char* pluginName, const char* pluginType, const ASN1_
 
             if (NULL != plugin)
             {
-                ROCK_DATA_T rockData;
-                convertAsn1ToRock(rockData, *data);
-                plugin->updateData(rockData);
+                plugin->updateData(data);
             }
             else
             {

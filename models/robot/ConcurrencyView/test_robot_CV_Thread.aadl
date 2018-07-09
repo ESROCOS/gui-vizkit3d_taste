@@ -19,12 +19,12 @@ THREAD IMPLEMENTATION test_robot_test_robot.others
 PROPERTIES
 	Initialize_Entrypoint_Source_Text => "test_robot_wrappers.C_Init_test_robot";
 	Compute_Entrypoint_Source_Text => "test_robot_wrappers.trigger";
-	Dispatch_Protocol => Periodic;
-	Period            => 1000 ms;
-	Dispatch_Offset   => 0 ms;
+	Dispatch_Protocol      => Periodic;
+	Period                 => 100 ms;
+	Dispatch_Offset        => 0 ms;
 	Compute_Execution_Time => 0 ms .. 100 ms;
-	Stack_Size => 5 KByte;
-	Priority => 2;
+	Stack_Size             => 100 KByte;
+	Priority               => 6;
 END test_robot_test_robot.others;
 
 end test_robot_CV_Thread;

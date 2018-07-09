@@ -4,18 +4,17 @@
  * Licence: GPLv2
  */
 
-#include "motionCommandPluginWrapper.h"
+#include "motionCommandPluginWrapper.hpp"
 #include "MotionCommandPluginController.hpp"
 #include "wrapperTemplate.hpp"
-#include "typeConversions.hpp"
 
 
-int MotionCommandVisualization_updateMotionCommand(const char* pluginName, const asn1_Motion2D* command)
+int MotionCommandVisualization_updateMotionCommand(const char* pluginName, const base::commands::Motion2D& command)
 {
-    return updatePluginData<MotionCommandPluginController>(pluginName, "MotionCommandVisualization", command, Motion2D_fromAsn1);
+    return updatePluginData<MotionCommandPluginController>(pluginName, "MotionCommandVisualization", command);
 }
 
-int MotionCommandVisualization_updatePose(const char* pluginName, const asn1_Pose* pose)
+int MotionCommandVisualization_updatePose(const char* pluginName, const base::Pose& pose)
 {
-    return updatePluginData<MotionCommandPluginController>(pluginName, "MotionCommandVisualization", pose, Pose_fromAsn1);
+    return updatePluginData<MotionCommandPluginController>(pluginName, "MotionCommandVisualization", pose);
 }

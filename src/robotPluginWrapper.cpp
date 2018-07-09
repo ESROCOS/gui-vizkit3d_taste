@@ -4,18 +4,17 @@
  * Licence: GPLv2
  */
 
-#include "robotPluginWrapper.h"
+#include "robotPluginWrapper.hpp"
 #include "RobotPluginController.hpp"
 #include "wrapperTemplate.hpp"
-#include "typeConversions.hpp"
 
 
-int RobotVisualization_updateJoints(const char* pluginName, const asn1_Joints* joints)
+int RobotVisualization_updateJoints(const char* pluginName, const base::samples::Joints& joints)
 {
-    return updatePluginData<RobotPluginController>(pluginName, "RobotVisualization", joints, Joints_fromAsn1);
+    return updatePluginData<RobotPluginController>(pluginName, "RobotVisualization", joints);
 }
 
-int RobotVisualization_updateRigidBodyState(const char* pluginName, const asn1_RigidBodyState* state)
+int RobotVisualization_updateRigidBodyState(const char* pluginName, const base::samples::RigidBodyState& state)
 {
-    return updatePluginData<RobotPluginController>(pluginName, "RobotVisualization", state, RigidBodyState_fromAsn1);
+    return updatePluginData<RobotPluginController>(pluginName, "RobotVisualization", state);
 }

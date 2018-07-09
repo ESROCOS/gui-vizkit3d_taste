@@ -30,6 +30,10 @@ then
     source user_init_pre.sh
 fi
 
+# Set up the cache to limit the calls to ASN1SCC in DMT tools
+mkdir -p .cache
+export PROJECT_CACHE=$(pwd)/.cache
+
 # Use PolyORB-HI-C runtime
 USE_POHIC=1
 
@@ -107,9 +111,9 @@ cd "$CWD" && assert-builder-ocarina.py \
 	--interfaceView "$INTERFACEVIEW" \
 	--deploymentView "$DEPLOYMENTVIEW" \
 	-o "$OUTPUTDIR" \
-	--subC vizkit3d_rigidbodystate:"$SKELS"/vizkit3d_rigidbodystate.zip \
+	--subCPP vizkit3d_rigidbodystate:"$SKELS"/vizkit3d_rigidbodystate.zip \
 	--subCPP test_bodystate:"$SKELS"/test_bodystate.zip \
-	--subC vizkit3d_bodystate:"$SKELS"/vizkit3d_bodystate.zip \
+	--subCPP vizkit3d_bodystate:"$SKELS"/vizkit3d_bodystate.zip \
 	$ORCHESTRATOR_OPTIONS
 
 if [ -f user_init_last.sh ]

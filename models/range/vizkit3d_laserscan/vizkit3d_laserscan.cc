@@ -5,8 +5,10 @@
 /* Function static data is declared in this file : */
 #include "Context-vizkit3d-laserscan.h"
 
-#include "vizkit3d_taste/vizkit3d_taste.h"
-#include "vizkit3d_taste/laserScanPluginWrapper.h"
+#include "vizkit3d_taste/vizkit3d_taste.hpp"
+#include "vizkit3d_taste/laserScanPluginWrapper.hpp"
+#include "base_support/Base-samples-RigidBodyStateConvert.hpp"
+#include "base_support/Base-samples-LaserScanConvert.hpp"
 #include <stdio.h>
 
 int g_statusOk = 0; // flag to avoid calling vizkit3d if instance not initialized or failed
@@ -37,7 +39,9 @@ void vizkit3d_laserscan_PI_updateLaserScan(const asn1SccBase_samples_LaserScan *
     
     if (g_statusOk)
     {
-        result = LaserScanVisualization_updateLaserScan(vizkit3d_laserscan_ctxt.id, IN_scan);
+        base::samples::LaserScan scan;
+        asn1SccBase_samples_LaserScan_fromAsn1(scan, *IN_scan);
+        result = LaserScanVisualization_updateLaserScan(vizkit3d_laserscan_ctxt.id, scan);
         
         if (VIZTASTE_TERMINATED == result)
         {
@@ -58,7 +62,9 @@ void vizkit3d_laserscan_PI_updatePose(const asn1SccBase_samples_RigidBodyState *
     
     if (g_statusOk)
     {
-        result = LaserScanVisualization_updatePose(vizkit3d_laserscan_ctxt.id, IN_pose);
+        base::samples::RigidBodyState pose;
+        asn1SccBase_samples_RigidBodyState_fromAsn1(pose, *IN_pose);
+        result = LaserScanVisualization_updatePose(vizkit3d_laserscan_ctxt.id, pose);
         
         if (VIZTASTE_TERMINATED == result)
         {

@@ -4,9 +4,8 @@
  * Licence: GPLv2
  */
 
-#include "vizkit3d_taste.h"
-#include "robotPluginWrapper.h"
-#include "typeConversions.hpp"
+#include "vizkit3d_taste.hpp"
+#include "robotPluginWrapper.hpp"
 #include <thread>
 #include <cmath>
 #include <cstring>
@@ -15,28 +14,24 @@
 
 void update()
 {
-    asn1_RigidBodyState rbs;
+    base::samples::RigidBodyState rbs;
+    rbs.position = base::Vector3d(0.0, 0.0, 0.0);
     int dir3 = 1;
     
     // Joints: positions of joint_3, joint_4
-    asn1_JointState jz;
+    base::JointState jz;
     jz.acceleration = 0;
     jz.effort = 0;
     jz.position = 0;
     jz.raw = 0;
     jz.speed = 0;
     
-    asn1_Joints joints;
-    joints.names.nCount = 2;
-
-    strncpy((char*)&joints.names.arr[0].arr, "joint_3", numT_String);
-    joints.names.arr[0].nCount = strnlen("joint_3", numT_String);
-    strncpy((char*)&joints.names.arr[1].arr, "joint_4", numT_String);
-    joints.names.arr[1].nCount = strnlen("joint_r", numT_String);
+    base::samples::Joints joints;
+    joints.names.push_back("joint_3");
+    joints.names.push_back("joint_4");
     
-    joints.elements.nCount = 2;
-    joints.elements.arr[0] = jz;
-    joints.elements.arr[1] = jz;
+    joints.elements.push_back(jz);
+    joints.elements.push_back(jz);
 
     int j3 = 0;
 
@@ -47,34 +42,30 @@ void update()
         if (VIZTASTE_OK == result)
         {
             // Update RigidBodyState
-            
-            base::AngleAxisd aa( i*M_PI*0.01/180.0, base::Vector3d::UnitX());
-            base::Quaterniond orientation(aa);
-            Quaterniond_toAsn1(rbs.orientation, orientation);
-
-            result = RobotVisualization_updateRigidBodyState("Robot", &rbs);
+            rbs.orientation = base::Quaterniond(base::AngleAxisd(i*M_PI*0.01/180.0, base::Vector3d::UnitX()));
+            result = RobotVisualization_updateRigidBodyState("Robot", rbs);
         }
 
         if (VIZTASTE_OK == result)
         {
             // Update Joints
             // joint_3
-            double j3pos = joints.elements.arr[0].position;
+            double j3pos = joints.elements[0].position;
             j3pos += dir3 * abs(j3) * M_PI / 100000.0;
             if (abs(j3pos) > 2.0)
             {
                 dir3 *= -1;
             }
-            joints.elements.arr[0].position = j3pos;
+            joints.elements[0].position = j3pos;
             j3 += dir3;
             
             // joint_4
-            double j4pos = joints.elements.arr[1].position;
+            double j4pos = joints.elements[1].position;
             j4pos = i * M_PI / 500.0;
             j4pos = remainder(j4pos, M_PI);
-            joints.elements.arr[1].position = j4pos;
+            joints.elements[1].position = j4pos;
 
-            result = RobotVisualization_updateJoints("Robot", &joints);
+            result = RobotVisualization_updateJoints("Robot", joints);
         }
 
         switch (result)

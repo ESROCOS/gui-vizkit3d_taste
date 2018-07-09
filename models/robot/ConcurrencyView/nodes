@@ -6,5 +6,6 @@
 * x86_partition PLATFORM_NATIVE
 vizkit3d_robot
 test_robot
+x86_partition_taste_api
 vt_vizkit3d_robot_updaterigidbodystate
 vt_vizkit3d_robot_updatejoints

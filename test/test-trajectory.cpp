@@ -4,11 +4,10 @@
  * Licence: GPLv2
  */
 
-#include "vizkit3d_taste.h"
-#include "motionCommandPluginWrapper.h"
-#include "trajectoryPluginWrapper.h"
-#include "waypointPluginWrapper.h"
-#include "typeConversions.hpp"
+#include "vizkit3d_taste.hpp"
+#include "motionCommandPluginWrapper.hpp"
+#include "trajectoryPluginWrapper.hpp"
+#include "waypointPluginWrapper.hpp"
 #include <thread>
 #include <cmath>
 #include <iostream>
@@ -18,69 +17,54 @@
 void update()
 {
     // Trajectory vector
-    asn1_Vector3d tv;
-    base::Vector3d tvAux(0.0, 0.0, 0.0);
-    Vector3d_toAsn1(tv, tvAux);
+    base::Vector3d tv(0.0, 0.0, 0.0);
 
     // Waypoint
-    asn1_Waypoint wp;
-    base::Vector3d wpAux(0.0, 0.0, 0.0);
-    Vector3d_toAsn1(wp.position, wpAux);
-    wp.heading = M_PI / 3.0;
-    wp.tol_position = 0.0;
-    wp.tol_heading = 0.0;
+    base::Waypoint wp(base::Vector3d(0.0, 0.0, 0.0), M_PI / 3.0, 0.0, 0.0);
 
     // Motion command and pose
-    asn1_Motion2D cmd;
-    cmd.translation = 0.1;
-    cmd.rotation = 0.0;
-    
-    asn1_Pose pose;
-    base::Vector3d posAux(0.0, 0.0, 0.0);
-    Vector3d_toAsn1(pose.position, posAux);
-    base::AngleAxisd aa(M_PI/3.0, base::Vector3d::UnitZ());
-    base::Quaterniond oriAux(aa);
-    Quaterniond_toAsn1(pose.orientation, oriAux);
+    base::commands::Motion2D cmd(0.1, 0.0);
+    base::Pose pose(base::Vector3d(0.0, 0.0, 0.0), base::Quaterniond(base::AngleAxisd(M_PI/3.0, base::Vector3d::UnitZ())));
 
     for (int i = 0; ; ++i)
     {
         int result = VIZTASTE_OK;
         
         // Trajectory
-        tv.data.arr[0] = i/100.0;
-        tv.data.arr[1] = i/50.0;
+        tv[0] = i/100.0;
+        tv[1] = i/50.0;
 
         if (VIZTASTE_OK == result)
         {
-            result = TrajectoryVisualization_updateTrajectory("Trajectory", &tv);
+            result = TrajectoryVisualization_updateTrajectory("Trajectory", tv);
         }
         
         // Waypoint
         if (0 == i % 100)
         {
-            wp.position.data.arr[0] = (i+100)/100.0;
-            wp.position.data.arr[1] = (i+100)/50.0;
+            wp.position[0] = (i+100)/100.0;
+            wp.position[1] = (i+100)/50.0;
 
             if (VIZTASTE_OK == result)
             {
-                result = WaypointVisualization_updateWaypoint("Waypoint", &wp);
+                result = WaypointVisualization_updateWaypoint("Waypoint", wp);
             }
         }
         
         // Motion command
         if (0 == i % 100)
         {
-            pose.position.data.arr[0] = i/100.0;
-            pose.position.data.arr[1] = i/50.0;
+            pose.position[0] = i/100.0;
+            pose.position[1] = i/50.0;
             
             if (VIZTASTE_OK == result)
             {
-                result = MotionCommandVisualization_updateMotionCommand("Command", &cmd);
+                result = MotionCommandVisualization_updateMotionCommand("Command", cmd);
             }
 
             if (VIZTASTE_OK == result)
             {
-                result = MotionCommandVisualization_updatePose("Command", &pose);
+                result = MotionCommandVisualization_updatePose("Command", pose);
             }
         }
         
@@ -118,6 +102,7 @@ int main(int argc, char** argv)
 
     std::thread t1(update);
     t1.join();
+    usleep(100);
 
     return 0;
 }

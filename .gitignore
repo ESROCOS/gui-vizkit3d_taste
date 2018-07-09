@@ -15,3 +15,5 @@ models/range/sonar_beam.data
 models/robot/config-robot.yml
 models/robot/spacebot_arm
 models/trajectory/config-trajectory.yml
+.cache
+debug

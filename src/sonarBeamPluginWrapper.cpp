@@ -4,18 +4,17 @@
  * Licence: GPLv2
  */
 
-#include "sonarBeamPluginWrapper.h"
+#include "sonarBeamPluginWrapper.hpp"
 #include "SonarBeamPluginController.hpp"
 #include "wrapperTemplate.hpp"
-#include "typeConversions.hpp"
 
 
-int SonarBeamVisualization_updateSonarBeam(const char* pluginName, const asn1_SonarBeam* beam)
+int SonarBeamVisualization_updateSonarBeam(const char* pluginName, const base::samples::SonarBeam& beam)
 {
-    return updatePluginData<SonarBeamPluginController>(pluginName, "SonarBeamVisualization", beam, SonarBeam_fromAsn1);
+    return updatePluginData<SonarBeamPluginController>(pluginName, "SonarBeamVisualization", beam);
 }
 
-int SonarBeamVisualization_updateOrientation(const char* pluginName, const asn1_RigidBodyState* state)
+int SonarBeamVisualization_updateOrientation(const char* pluginName, const base::samples::RigidBodyState& state)
 {
-    return updatePluginData<SonarBeamPluginController>(pluginName, "SonarBeamVisualization", state, RigidBodyState_fromAsn1);
+    return updatePluginData<SonarBeamPluginController>(pluginName, "SonarBeamVisualization", state);
 }

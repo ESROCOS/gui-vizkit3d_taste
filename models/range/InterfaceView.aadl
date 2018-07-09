@@ -149,7 +149,6 @@ FEATURES
 PROPERTIES
   Source_Language => (CPP);
   Taste::Active_Interfaces => enabled;
-  Source_Text => ("test_range.zip");
 END test_Range;
 
 SYSTEM IMPLEMENTATION test_Range.others
@@ -191,9 +190,8 @@ FEATURES
     Taste::InterfaceName => "updatePointCloud";
   };
 PROPERTIES
-  Source_Language => (C);
+  Source_Language => (CPP);
   Taste::Active_Interfaces => enabled;
-  Source_Text => ("vizkit3d_pointcloud.zip");
 END vizkit3d_Pointcloud;
 
 SYSTEM IMPLEMENTATION vizkit3d_Pointcloud.others
@@ -262,9 +260,8 @@ FEATURES
     Taste::InterfaceName => "updatePose";
   };
 PROPERTIES
-  Source_Language => (C);
+  Source_Language => (CPP);
   Taste::Active_Interfaces => enabled;
-  Source_Text => ("vizkit3d_depthmap.zip");
 END vizkit3d_DepthMap;
 
 SYSTEM IMPLEMENTATION vizkit3d_DepthMap.others
@@ -333,9 +330,8 @@ FEATURES
     Taste::InterfaceName => "updatePose";
   };
 PROPERTIES
-  Source_Language => (C);
+  Source_Language => (CPP);
   Taste::Active_Interfaces => enabled;
-  Source_Text => ("vizkit3d_laserscan.zip");
 END vizkit3d_LaserScan;
 
 SYSTEM IMPLEMENTATION vizkit3d_LaserScan.others
@@ -404,9 +400,8 @@ FEATURES
     Taste::InterfaceName => "updateOrientation";
   };
 PROPERTIES
-  Source_Language => (C);
+  Source_Language => (CPP);
   Taste::Active_Interfaces => enabled;
-  Source_Text => ("vizkit3d_sonarbeam.zip");
 END vizkit3d_SonarBeam;
 
 SYSTEM IMPLEMENTATION vizkit3d_SonarBeam.others

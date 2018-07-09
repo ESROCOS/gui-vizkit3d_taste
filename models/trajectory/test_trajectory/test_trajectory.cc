@@ -2,28 +2,28 @@
 
 #include "test_trajectory.h"
 
-#include "vizkit3d_taste/vizkit3d_taste.h"
-#include "vizkit3d_taste/typeConversions.hpp"
+#include "vizkit3d_taste/vizkit3d_taste.hpp"
 #include <cmath>
+#include "base_support/OpaqueConversion.hpp"
 #include <iostream>
 
 // Globals
 int i = 0;
-asn1_Vector3d tv;
-asn1_Waypoint wp;
-asn1_Motion2D cmd;
-asn1_Pose pose;
+asn1SccWrappers_Vector3d tv;
+asn1SccBase_Waypoint wp;
+asn1SccBase_commands_Motion2D cmd;
+asn1SccBase_Pose pose;
 
 
 void test_trajectory_startup()
 {
     // Trajectory vector
     base::Vector3d tvAux(0.0, 0.0, 0.0);
-    Vector3d_toAsn1(tv, tvAux);
+    asn1Scc_Vector3d_toAsn1(tv, tvAux);
 
     // Waypoint
     base::Vector3d wpAux(0.0, 0.0, 0.0);
-    Vector3d_toAsn1(wp.position, wpAux);
+    asn1Scc_Vector3d_toAsn1(wp.position, wpAux);
     wp.heading = M_PI / 3.0;
     wp.tol_position = 0.0;
     wp.tol_heading = 0.0;
@@ -33,10 +33,10 @@ void test_trajectory_startup()
     cmd.rotation = 0.0;
     
     base::Vector3d posAux(0.0, 0.0, 0.0);
-    Vector3d_toAsn1(pose.position, posAux);
-    base::AngleAxisd aa(M_PI/3.0, base::Vector3d::UnitZ());
-    base::Quaterniond oriAux(aa);
-    Quaterniond_toAsn1(pose.orientation, oriAux);
+    asn1Scc_Vector3d_toAsn1(pose.position, posAux);
+
+    base::Quaterniond oriAux(base::AngleAxisd(i*M_PI/180.0, base::Vector3d::UnitX()));
+    asn1Scc_Quaterniond_toAsn1(pose.orientation, oriAux);
 }
 
 void test_trajectory_PI_trigger()

@@ -4,13 +4,12 @@
  * Licence: GPLv2
  */
 
-#include "rigidBodyStatePluginWrapper.h"
+#include "rigidBodyStatePluginWrapper.hpp"
 #include "RigidBodyStatePluginController.hpp"
 #include "wrapperTemplate.hpp"
-#include "typeConversions.hpp"
 
 
-int RigidBodyStateVisualization_updateRigidBodyState(const char* pluginName, const asn1_RigidBodyState* state)
+int RigidBodyStateVisualization_updateRigidBodyState(const char* pluginName, const base::samples::RigidBodyState& state)
 {
-    return updatePluginData<RigidBodyStatePluginController>(pluginName, "RigidBodyStateVisualization", state, RigidBodyState_fromAsn1);
+    return updatePluginData<RigidBodyStatePluginController>(pluginName, "RigidBodyStateVisualization", state);
 }

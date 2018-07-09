@@ -5,8 +5,9 @@
 /* Function static data is declared in this file : */
 #include "Context-vizkit3d-bodystate.h"
 
-#include "vizkit3d_taste/vizkit3d_taste.h"
-#include "vizkit3d_taste/bodyStatePluginWrapper.h"
+#include "vizkit3d_taste/vizkit3d_taste.hpp"
+#include "vizkit3d_taste/bodyStatePluginWrapper.hpp"
+#include "base_support/Base-samples-BodyStateConvert.hpp"
 #include <stdio.h>
 
 int g_statusOk = 0; // flag to avoid calling vizkit3d if instance not initialized or failed
@@ -34,10 +35,12 @@ void vizkit3d_bodystate_startup()
 void vizkit3d_bodystate_PI_updateBodyState(const asn1SccBase_samples_BodyState *IN_state)
 {
     int result;
+    base::samples::BodyState bs;
     
     if (g_statusOk)
     {
-        result = BodyStateVisualization_updateBodyState(vizkit3d_bodystate_ctxt.id, IN_state);
+        asn1SccBase_samples_BodyState_fromAsn1(bs, *IN_state);
+        result = BodyStateVisualization_updateBodyState(vizkit3d_bodystate_ctxt.id, bs);
         
         if (VIZTASTE_TERMINATED == result)
         {

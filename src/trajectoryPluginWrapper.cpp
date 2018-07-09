@@ -4,13 +4,17 @@
  * Licence: GPLv2
  */
 
-#include "trajectoryPluginWrapper.h"
+#include "trajectoryPluginWrapper.hpp"
 #include "TrajectoryPluginController.hpp"
 #include "wrapperTemplate.hpp"
-#include "typeConversions.hpp"
 
 
-int TrajectoryVisualization_updateTrajectory(const char* pluginName, const asn1_Vector3d* vector)
+int TrajectoryVisualization_updateTrajectory(const char* pluginName, const base::Vector3d& vector)
 {
-    return updatePluginData<TrajectoryPluginController>(pluginName, "TrajectoryVisualization", vector, Vector3d_fromAsn1);
+    return updatePluginData<TrajectoryPluginController>(pluginName, "TrajectoryVisualization", vector);
+}
+
+int TrajectoryVisualization_updateTrajectory(const char* pluginName, const base::geometry::Spline<3>& spline)
+{
+    return updatePluginData<TrajectoryPluginController>(pluginName, "TrajectoryVisualization", spline);
 }

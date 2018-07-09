@@ -1,8 +1,13 @@
 /* User code: This file will not be overwritten by TASTE. */
 
 #include "test_range.h"
-#include "vizkit3d_taste/vizkit3d_taste.h"
-#include "vizkit3d_taste/typeConversions.hpp"
+#include "vizkit3d_taste/vizkit3d_taste.hpp"
+#include "base_support/OpaqueConversion.hpp"
+#include "base_support/Base-samples-RigidBodyStateConvert.hpp"
+#include "base_support/Base-samples-DepthMapConvert.hpp"
+#include "base_support/Base-samples-LaserScanConvert.hpp"
+#include "base_support/Base-samples-PointcloudConvert.hpp"
+#include "base_support/Base-samples-SonarBeamConvert.hpp"
 #include <cmath>
 
 
@@ -10,10 +15,8 @@
 
 #define MAX_LINE 1000
 
-int readSonarBeamEntry(const char* line, asn1_SonarBeam* pOutSample)
+int readSonarBeamEntry(const char* line, base::samples::SonarBeam& outSample)
 {
-    assert(NULL != pOutSample && "NULL output pointer in readSonarBeamEntry");
-    
     if ('#' == line[0])
     {
         // Comment
@@ -22,12 +25,12 @@ int readSonarBeamEntry(const char* line, asn1_SonarBeam* pOutSample)
     else
     {
         std::stringstream stm(line);
-        stm >> pOutSample->time.microseconds 
-            >> pOutSample->bearing.rad 
-            >> pOutSample->sampling_interval 
-            >> pOutSample->speed_of_sound 
-            >> pOutSample->beamwidth_horizontal
-            >> pOutSample->beamwidth_vertical;
+        stm >> outSample.time.microseconds 
+            >> outSample.bearing.rad 
+            >> outSample.sampling_interval 
+            >> outSample.speed_of_sound 
+            >> outSample.beamwidth_horizontal
+            >> outSample.beamwidth_vertical;
                
         if (stm.fail())
         {
@@ -36,18 +39,18 @@ int readSonarBeamEntry(const char* line, asn1_SonarBeam* pOutSample)
         }
 
         // Read beam
-        pOutSample->beam.nCount = 0;
-        while (!stm.fail() && pOutSample->beam.nCount <= 60)
+        while (!stm.fail() && outSample.beam.size() <= 60)
         {
-            stm >> pOutSample->beam.arr[pOutSample->beam.nCount];
-            pOutSample->beam.nCount++;
+            double dist;
+            stm >> dist;
+            outSample.beam.push_back(dist);
         }
     }
     
     return 0;
 }
 
-size_t readSonarBeamFile(const char* file, asn1_SonarBeam** pOutSamples, size_t maxSamples)
+size_t readSonarBeamFile(const char* file, std::vector<base::samples::SonarBeam>& outData)
 {
     size_t readCount = 0;
     FILE* fd = NULL;
@@ -55,24 +58,22 @@ size_t readSonarBeamFile(const char* file, asn1_SonarBeam** pOutSamples, size_t 
     char* pLine = NULL;
     int readOk = 1;
     int parseResult = 0;
-    asn1_SonarBeam sample;
-    
-    assert(NULL != pOutSamples && "NULL output array in readSonarBeamFile");
+    base::samples::SonarBeam sample;
     
     fd = fopen(file, "r");
     
     if (NULL != fd)
     {
-        while (readOk && readCount < maxSamples)
+        while (readOk)
         {
             pLine = fgets(&line[0], MAX_LINE, fd);
             if (NULL != pLine)
             {
-                parseResult = readSonarBeamEntry(line, &sample);
+                base::samples::SonarBeam sample;
+                parseResult = readSonarBeamEntry(line, sample);
                 if (0 == parseResult)
                 {
-                    pOutSamples[readCount] = (asn1_SonarBeam*)malloc(sizeof(asn1_SonarBeam));
-                    *pOutSamples[readCount] = sample;
+                    outData.push_back(sample);
                     readCount++;
                 }
                 else if (1 == parseResult)
@@ -98,49 +99,41 @@ size_t readSonarBeamFile(const char* file, asn1_SonarBeam** pOutSamples, size_t 
 
 
 
+
 // Globals
 int i = 0;
-asn1_Pointcloud cloud;
-asn1_DepthMap map;
-asn1_LaserScan scan;
-asn1_RigidBodyState pose;
-asn1_RigidBodyState sonarPose;
+base::samples::Pointcloud cloud;
+base::samples::DepthMap map;
+base::samples::LaserScan scan;
+base::samples::RigidBodyState sonarPose;
 
 
 const char* sonarDataFile = "sonar_beam.data";
 #define maxSonarData 10000
-asn1_SonarBeam* sonarData[maxSonarData];
+std::vector<base::samples::SonarBeam> sonarData;
 
 void test_range_startup()
 {
-    int j;
-
-    // Point cloud
-    cloud.points.nCount = 36;
-    cloud.colors.nCount = 0;
-
     // Depth map
-    map.vertical_projection = asn1Sccplanar;
-    map.horizontal_projection = asn1Sccplanar;
+    map.vertical_projection = base::samples::DepthMap::PLANAR;
+    map.horizontal_projection = base::samples::DepthMap::PLANAR;
     map.vertical_size = 6;
     map.horizontal_size = 6;
-    map.vertical_interval.nCount = 6;
-    map.horizontal_interval.nCount = 6;
-    for (j = 0; j < 6; j++)
+    for (int j = 0; j < 6; j++)
     {
-        map.vertical_interval.arr[j] = j * 0.1;
-        map.horizontal_interval.arr[j] = j * 0.1;
+        map.vertical_interval.push_back(j * 0.1);
+        map.horizontal_interval.push_back(j * 0.1);
     }
     
     // Laser scan
     scan.start_angle = -M_PI_4;
     scan.angular_resolution = M_PI / 60.0;
     scan.speed = 1.0;
-    scan.minrange = 0.1;
-    scan.maxrange = 1000.0;
+    scan.minRange = 0.1;
+    scan.maxRange = 1000.0;
     
     // Sonar beam
-    size_t count = readSonarBeamFile(sonarDataFile, sonarData, maxSonarData);
+    size_t count = readSonarBeamFile(sonarDataFile, sonarData);
     if (count > 0)
     {
         std::cout << "Read sonar data: " << count << " entries." << std::endl;
@@ -150,53 +143,69 @@ void test_range_startup()
     {
         std::cout << "Cannot read sonar data." << std::endl;
     }
+
+    // Sonar pose
+    sonarPose.position = base::Vector3d(0.0, 0.0, 0.0);
+    sonarPose.orientation = base::Quaterniond(base::AngleAxisd(0.0, base::Vector3d::UnitZ()));
 }
 
 void test_range_PI_trigger()
 {
     static int sonarCount = 0;
+    asn1SccBase_samples_DepthMap asn1Map;
+    asn1SccBase_samples_LaserScan asn1Scan;
+    asn1SccBase_samples_Pointcloud asn1Cloud;
+    asn1SccBase_samples_SonarBeam asn1Beam;
+    asn1SccBase_samples_RigidBodyState asn1SonarPose;
+    asn1SccBase_samples_RigidBodyState asn1Pose;
     
     // Point cloud
+    cloud.points.clear();
     for (int j = 0; j < 6; j++)
     {
         for (int k = 0; k < 6; k++)
         {
-            base::Vector3d point(i/1000.0, j/10.0, k/10.0);
-            Vector3d_toAsn1(cloud.points.arr[6*j+k], point);
+            cloud.points.push_back(base::Vector3d(i/1000.0, j/10.0, k/10.0));
         }
     }
-    test_range_RI_updatePointCloud(&cloud);
+    
+    asn1SccBase_samples_Pointcloud_toAsn1(asn1Cloud, cloud);
+    test_range_RI_updatePointCloud(&asn1Cloud);
 
     // Depth map
-    map.distances.nCount = 36;
-    for (int j = 0; j < map.distances.nCount ; j++)
+    map.distances.clear();
+    for (int j = 0; j < 36 ; j++)
     {
-        map.distances.arr[j] = i/1000.0;
+        map.distances.push_back(i/1000.0);
     }
-    test_range_RI_updateDepthMap(&map);
+    asn1SccBase_samples_DepthMap_toAsn1(asn1Map, map);
+    test_range_RI_updateDepthMap(&asn1Map);
     
     // Laser scan
-    scan.ranges.nCount = 30;
-    for (int j = 0; j < scan.ranges.nCount; j++)
+    scan.ranges.clear();
+    for (int j = 0; j < 30; j++)
     {
-        scan.ranges.arr[j] = (i+j);
-    }
-    test_range_RI_updateLaserScan(&scan);
-    
-    // Sonar
-    if (NULL != sonarData[sonarCount % maxSonarData])
-    {
-        test_range_RI_updateOrientation(&sonarPose);
-        test_range_RI_updateSonarBeam(sonarData[sonarCount++ % maxSonarData]);
+        scan.ranges.push_back(i+j);
     }
 
-    // Pose
-    base::AngleAxisd rotation(i*M_PI/180.0, base::Vector3d::UnitZ());
-    base::Quaterniond orientation(rotation);
-    Quaterniond_toAsn1(pose.orientation, orientation);
+    asn1SccBase_samples_LaserScan_toAsn1(asn1Scan, scan);
+    test_range_RI_updateLaserScan(&asn1Scan);
     
-    test_range_RI_updatePose_LS(&pose);
-    test_range_RI_updatePose_DM(&pose);    
+    // Sonar
+    asn1SccBase_samples_RigidBodyState_toAsn1(asn1SonarPose, sonarPose);
+    test_range_RI_updateOrientation(&asn1SonarPose);
+
+    asn1SccBase_samples_SonarBeam_toAsn1(asn1Beam, sonarData[sonarCount++ % maxSonarData]);
+    test_range_RI_updateSonarBeam(&asn1Beam);
+
+    // Pose
+    base::samples::RigidBodyState pose;
+    pose.position = base::Vector3d(0.0, 0.0, 0.0);
+    pose.orientation = base::Quaterniond(base::AngleAxisd(i*M_PI/180.0, base::Vector3d::UnitZ()));
+    asn1SccBase_samples_RigidBodyState_toAsn1(asn1Pose, pose);
+    
+    test_range_RI_updatePose_LS(&asn1Pose);
+    test_range_RI_updatePose_DM(&asn1Pose);    
 
     i++;
 }

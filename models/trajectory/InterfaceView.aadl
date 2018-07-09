@@ -100,7 +100,6 @@ FEATURES
 PROPERTIES
   Source_Language => (CPP);
   Taste::Active_Interfaces => enabled;
-  Source_Text => ("test_trajectory.zip");
 END test_Trajectory;
 
 SYSTEM IMPLEMENTATION test_Trajectory.others
@@ -142,9 +141,8 @@ FEATURES
     Taste::InterfaceName => "updateTrajectory";
   };
 PROPERTIES
-  Source_Language => (C);
+  Source_Language => (CPP);
   Taste::Active_Interfaces => enabled;
-  Source_Text => ("vizkit3d_trajectory.zip");
 END vizkit3d_Trajectory;
 
 SYSTEM IMPLEMENTATION vizkit3d_Trajectory.others
@@ -192,9 +190,8 @@ FEATURES
     Taste::InterfaceName => "updateWaypoint";
   };
 PROPERTIES
-  Source_Language => (C);
+  Source_Language => (CPP);
   Taste::Active_Interfaces => enabled;
-  Source_Text => ("vizkit3d_waypoint.zip");
 END vizkit3d_Waypoint;
 
 SYSTEM IMPLEMENTATION vizkit3d_Waypoint.others
@@ -263,9 +260,8 @@ FEATURES
     Taste::InterfaceName => "updatePose";
   };
 PROPERTIES
-  Source_Language => (C);
+  Source_Language => (CPP);
   Taste::Active_Interfaces => enabled;
-  Source_Text => ("vizkit3d_motioncommand.zip");
 END vizkit3d_MotionCommand;
 
 SYSTEM IMPLEMENTATION vizkit3d_MotionCommand.others

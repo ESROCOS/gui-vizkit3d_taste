@@ -5,8 +5,10 @@
 /* Function static data is declared in this file : */
 #include "Context-vizkit3d-pointcloud.h"
 
-#include "vizkit3d_taste/vizkit3d_taste.h"
-#include "vizkit3d_taste/pointcloudPluginWrapper.h"
+#include "vizkit3d_taste/vizkit3d_taste.hpp"
+#include "base_support/OpaqueConversion.hpp"
+#include "vizkit3d_taste/pointcloudPluginWrapper.hpp"
+#include "base_support/Base-samples-PointcloudConvert.hpp"
 #include <stdio.h>
 
 int g_statusOk = 0; // flag to avoid calling vizkit3d if instance not initialized or failed
@@ -37,7 +39,9 @@ void vizkit3d_pointcloud_PI_updatePointCloud(const asn1SccBase_samples_Pointclou
     
     if (g_statusOk)
     {
-        result = PointcloudVisualization_updatePointCloud(vizkit3d_pointcloud_ctxt.id, IN_cloud);
+        base::samples::Pointcloud cloud;
+        asn1SccBase_samples_Pointcloud_fromAsn1(cloud, *IN_cloud);
+        result = PointcloudVisualization_updatePointCloud(vizkit3d_pointcloud_ctxt.id, cloud);
         
         if (VIZTASTE_TERMINATED == result)
         {

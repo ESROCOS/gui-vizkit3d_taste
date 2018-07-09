@@ -4,13 +4,12 @@
  * Licence: GPLv2
  */
 
-#include "bodyStatePluginWrapper.h"
+#include "bodyStatePluginWrapper.hpp"
 #include "BodyStatePluginController.hpp"
 #include "wrapperTemplate.hpp"
-#include "typeConversions.hpp"
 
 
-int BodyStateVisualization_updateBodyState(const char* pluginName, const asn1_BodyState* state)
+int BodyStateVisualization_updateBodyState(const char* pluginName, const base::samples::BodyState& state)
 {
-    return updatePluginData<BodyStatePluginController>(pluginName, "BodyStateVisualization", state, BodyState_fromAsn1);
+    return updatePluginData<BodyStatePluginController>(pluginName, "BodyStateVisualization", state);
 }

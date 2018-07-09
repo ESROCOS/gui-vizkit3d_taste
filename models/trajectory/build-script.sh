@@ -30,6 +30,10 @@ then
     source user_init_pre.sh
 fi
 
+# Set up the cache to limit the calls to ASN1SCC in DMT tools
+mkdir -p .cache
+export PROJECT_CACHE=$(pwd)/.cache
+
 # Use PolyORB-HI-C runtime
 USE_POHIC=1
 
@@ -110,9 +114,9 @@ cd "$CWD" && assert-builder-ocarina.py \
 	--deploymentView "$DEPLOYMENTVIEW" \
 	-o "$OUTPUTDIR" \
 	--subCPP test_trajectory:"$SKELS"/test_trajectory.zip \
-	--subC vizkit3d_trajectory:"$SKELS"/vizkit3d_trajectory.zip \
-	--subC vizkit3d_waypoint:"$SKELS"/vizkit3d_waypoint.zip \
-	--subC vizkit3d_motioncommand:"$SKELS"/vizkit3d_motioncommand.zip \
+	--subCPP vizkit3d_trajectory:"$SKELS"/vizkit3d_trajectory.zip \
+	--subCPP vizkit3d_waypoint:"$SKELS"/vizkit3d_waypoint.zip \
+	--subCPP vizkit3d_motioncommand:"$SKELS"/vizkit3d_motioncommand.zip \
 	$ORCHESTRATOR_OPTIONS
 
 if [ -f user_init_last.sh ]

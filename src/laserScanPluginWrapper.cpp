@@ -4,18 +4,17 @@
  * Licence: GPLv2
  */
 
-#include "laserScanPluginWrapper.h"
+#include "laserScanPluginWrapper.hpp"
 #include "LaserScanPluginController.hpp"
 #include "wrapperTemplate.hpp"
-#include "typeConversions.hpp"
 
 
-int LaserScanVisualization_updateLaserScan(const char* pluginName, const asn1_LaserScan* scan)
+int LaserScanVisualization_updateLaserScan(const char* pluginName, const base::samples::LaserScan& scan)
 {
-    return updatePluginData<LaserScanPluginController>(pluginName, "LaserScanVisualization", scan, LaserScan_fromAsn1);
+    return updatePluginData<LaserScanPluginController>(pluginName, "LaserScanVisualization", scan);
 }
 
-int LaserScanVisualization_updatePose(const char* pluginName, const asn1_RigidBodyState* state)
+int LaserScanVisualization_updatePose(const char* pluginName, const base::samples::RigidBodyState& state)
 {
-    return updatePluginData<LaserScanPluginController>(pluginName, "LaserScanVisualization", state, RigidBodyState_fromAsn1);
+    return updatePluginData<LaserScanPluginController>(pluginName, "LaserScanVisualization", state);
 }

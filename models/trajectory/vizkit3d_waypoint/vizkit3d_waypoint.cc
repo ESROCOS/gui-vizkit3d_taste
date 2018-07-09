@@ -5,8 +5,9 @@
 /* Function static data is declared in this file : */
 #include "Context-vizkit3d-waypoint.h"
 
-#include "vizkit3d_taste/vizkit3d_taste.h"
-#include "vizkit3d_taste/waypointPluginWrapper.h"
+#include "vizkit3d_taste/vizkit3d_taste.hpp"
+#include "vizkit3d_taste/waypointPluginWrapper.hpp"
+#include "base_support/Base-WaypointConvert.hpp"
 #include <stdio.h>
 
 int g_statusOk = 0; // flag to avoid calling vizkit3d if instance not initialized or failed
@@ -37,7 +38,9 @@ void vizkit3d_waypoint_PI_updateWaypoint(const asn1SccBase_Waypoint *IN_waypoint
     
     if (g_statusOk)
     {
-        result = WaypointVisualization_updateWaypoint(vizkit3d_waypoint_ctxt.id, IN_waypoint);
+        base::Waypoint wp;
+        asn1SccBase_Waypoint_fromAsn1(wp, *IN_waypoint);
+        result = WaypointVisualization_updateWaypoint(vizkit3d_waypoint_ctxt.id, wp);
         
         if (VIZTASTE_TERMINATED == result)
         {
