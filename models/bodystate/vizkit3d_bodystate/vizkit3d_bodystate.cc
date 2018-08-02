@@ -53,9 +53,5 @@ void vizkit3d_bodystate_PI_updateBodyState(const asn1SccBase_samples_BodyState *
             g_statusOk = 0;
         }
     }
-    else
-    {
-        exit(0);
-    }
 }
 

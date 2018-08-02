@@ -40,7 +40,7 @@ void test_robot_PI_trigger()
     asn1SccBase_commands_Joints asn1Joints;
     
     // Update RigidBodyState
-    rbs.orientation = base::Quaterniond(base::AngleAxisd(i*M_PI*0.01/180.0, base::Vector3d::UnitX()));
+    rbs.orientation = base::Quaterniond(base::AngleAxisd(i*M_PI*0.1/180.0, base::Vector3d::UnitX()));
     asn1SccBase_samples_RigidBodyState_toAsn1(asn1Rbs, rbs);
     test_robot_RI_updateRigidBodyState(&asn1Rbs);
 
