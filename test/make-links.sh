@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# H2020 ESROCOS Project
+# Company: GMV Aerospace & Defence S.A.U.
+# Licence: GPLv2
+
 # Run the script from the build folder.
 #
 # Makes symbolic links to the configuration and data files of the 

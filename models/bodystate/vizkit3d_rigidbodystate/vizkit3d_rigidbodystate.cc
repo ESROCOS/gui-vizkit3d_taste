@@ -1,3 +1,9 @@
+/*
+ * H2020 ESROCOS Project
+ * Company: GMV Aerospace & Defence S.A.U.
+ * Licence: GPLv2
+ */
+
 /* Functions to be filled by the user (never overwritten by buildsupport tool) */
 
 #include "vizkit3d_rigidbodystate.h"
