@@ -7,7 +7,7 @@ esrocos_build_taste(vizkit3d_robot_widgets
     test_robot
     vizkit3d_robot
     BINARIES
-    binary.c/binaries/x86_partition
+    work/binaries/x86_partition
     DEPENDS
     vizkit3d_taste
     vizkit3d_types

@@ -17,3 +17,6 @@ models/robot/spacebot_arm
 models/trajectory/config-trajectory.yml
 .cache
 debug
+binaries
+dataview
+

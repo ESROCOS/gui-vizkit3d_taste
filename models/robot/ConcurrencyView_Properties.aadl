@@ -11,9 +11,9 @@ SYSTEM IMPLEMENTATION deploymentview.final
 EXTENDS process_package::deploymentview.final
 PROPERTIES
   AI::root_system => "SELECTED";
-  Stack_Size => 1000kbyte APPLIES TO x86_partition.test_robot;
-  Stack_Size => 1000kbyte APPLIES TO x86_partition.vt_vizkit3d_robot_updaterigidbodystate;
-  Stack_Size => 1000kbyte APPLIES TO x86_partition.vt_vizkit3d_robot_updatejoints;
+  Stack_Size => 1000kbytes APPLIES TO x86_partition.test_robot;
+  Stack_Size => 1000kbytes APPLIES TO x86_partition.vt_vizkit3d_robot_updaterigidbodystate;
+  Stack_Size => 1000kbytes APPLIES TO x86_partition.vt_vizkit3d_robot_updatejoints;
 END deploymentview.final;
 
 END process_package_proxy;

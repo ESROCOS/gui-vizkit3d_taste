@@ -1,0 +1,20 @@
+Context-vizkit3d-sonarbeam DEFINITIONS ::=
+BEGIN
+   IMPORTS
+      Vizkit3D-FilePath FROM Vizkit3D-Types
+      Vizkit3D-PluginLabel FROM Vizkit3D-Types;
+
+--  Group all context parameters of this function in a record
+Context-vizkit3d-sonarbeam ::= SEQUENCE {
+   configfile Vizkit3D-FilePath,
+   id Vizkit3D-PluginLabel
+
+}
+
+--  Declare a constant with the values set by the user in the interface view
+vizkit3d-sonarbeam-ctxt Context-vizkit3d-sonarbeam ::= {
+   configfile "config-range.yml",
+   id "Sonar"
+
+}
+END

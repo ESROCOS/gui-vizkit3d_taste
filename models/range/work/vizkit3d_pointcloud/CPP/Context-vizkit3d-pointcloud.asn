@@ -1,0 +1,20 @@
+Context-vizkit3d-pointcloud DEFINITIONS ::=
+BEGIN
+   IMPORTS
+      Vizkit3D-FilePath FROM Vizkit3D-Types
+      Vizkit3D-PluginLabel FROM Vizkit3D-Types;
+
+--  Group all context parameters of this function in a record
+Context-vizkit3d-pointcloud ::= SEQUENCE {
+   configfile Vizkit3D-FilePath,
+   id Vizkit3D-PluginLabel
+
+}
+
+--  Declare a constant with the values set by the user in the interface view
+vizkit3d-pointcloud-ctxt Context-vizkit3d-pointcloud ::= {
+   configfile "config-range.yml",
+   id "Cloud"
+
+}
+END

@@ -10,7 +10,7 @@ esrocos_build_taste(vizkit3d_range_widgets
     vizkit3d_pointcloud
     vizkit3d_sonarbeam
     BINARIES
-    binary.c/binaries/x86_partition
+    work/binaries/x86_partition
     DEPENDS
     vizkit3d_taste
     vizkit3d_types    
