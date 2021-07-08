@@ -8,10 +8,8 @@ esrocos_build_taste(vizkit3d_bodystate_widgets
     vizkit3d_bodystate
     vizkit3d_rigidbodystate
     BINARIES
-    work/binaries/x86_partition
-#    DEPENDS
-#    vizkit3d_taste
-#    vizkit3d_types
-#    vizkit3d_lib
-#    vizkit3d_headers
+    work/binaries/x86_partition  
+    DEPENDS
+    vizkit3d_types
+    vizkit3d_headers
 )

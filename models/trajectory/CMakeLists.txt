@@ -11,8 +11,8 @@ esrocos_build_taste(vizkit3d_trajectory_widgets
     BINARIES
     work/binaries/x86_partition
     DEPENDS
-    vizkit3d_taste
+#    vizkit3d_taste
     vizkit3d_types
-    vizkit3d_lib
+ #   vizkit3d_lib
     vizkit3d_headers
 )
