@@ -3,10 +3,9 @@ KAZOO?=kazoo
 # compile and link for a specific partition.
 # Use upper case for the partition name:
 # export <PARTITION_NAME>_EXTERNAL_SOURCE_PATH=/absolute/path/1:/....
-#EIGEN3_INC := `pkg-config --cflags eigen3 | sed "s/-I//"`
+export EIGEN3_INC=$(shell pkg-config --cflags eigen3 | sed "s/-I//")
 
-
-export X86_PARTITION_EXTERNAL_SOURCE_PATH = $(AUTOPROJ_CURRENT_ROOT)/install/include:$(AUTOPROJ_CURRENT_ROOT)/install/include/orocos:/usr/local/include/eigen3
+export X86_PARTITION_EXTERNAL_SOURCE_PATH = $(AUTOPROJ_CURRENT_ROOT)/install/include:$(AUTOPROJ_CURRENT_ROOT)/install/include/orocos:$(EIGEN3_INC)
 
 export X86_PARTITION_USER_LDFLAGS = -L$(AUTOPROJ_CURRENT_ROOT)/install/lib \
 	-lvizkit3d_taste \
@@ -34,6 +33,9 @@ work/skeletons_built:	InterfaceView.aadl DataView.aadl
 work/glue_built:	InterfaceView.aadl DeploymentView.aadl DataView.aadl
 	$(KAZOO) -p --glue --gw -o work
 	touch $@
+	
+see-options:
+	echo $(X86_PARTITION_EXTERNAL_SOURCE_PATH)
 
 clean:
 	rm -rf work/build
