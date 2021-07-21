@@ -14,7 +14,7 @@ cd $AUTOPROJ_CURRENT_ROOT/gui/vizkit3d_taste/models
 MODELS=("bodystate" "range"  "robot"  "trajectory" )
 DIR_TEST=$AUTOPROJ_CURRENT_ROOT/gui/vizkit3d_taste/test
 
-for m in "${MODEL[@]}"
+for m in "${MODELS[@]}"
 do
 	DIR_BINARIES=${AUTOPROJ_CURRENT_ROOT}/gui/vizkit3d_taste/models/${m}/work/binaries 
 	if [ -d "$DIR_BINARIES" ]; then

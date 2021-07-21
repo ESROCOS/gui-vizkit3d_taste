@@ -12,8 +12,9 @@ export X86_PARTITION_USER_LDFLAGS = -L$(AUTOPROJ_CURRENT_ROOT)/install/lib \
 	-lbase_support \
 	-lbase-types \
 	-L$(AUTOPROJ_CURRENT_ROOT)/install/lib/orocos/types/ \
-	-lbase-typekit-gnulinux
- 
+	-lbase-typekit-gnulinux \
+	-lrobot_model-viz \
+	-lkdl_parser
 
 all:	c
 
